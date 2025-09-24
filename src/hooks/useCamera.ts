@@ -34,7 +34,18 @@ export const useCamera = () => {
       }
     } catch (error) {
       console.error('Camera access error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Camera access failed';
+      
+      let errorMessage = 'Camera access failed';
+      
+      if (error instanceof Error) {
+        // Check for specific permission denied error
+        if (error.name === 'NotAllowedError') {
+          errorMessage = 'Camera permission denied. Please enable camera access in your browser settings and refresh the page.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       setCameraState({
         isActive: false,
         isSupported: true,
