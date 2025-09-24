@@ -25,6 +25,8 @@ export const useCamera = () => {
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // Ensure video plays automatically
+        videoRef.current.play().catch(console.error);
         streamRef.current = stream;
         setCameraState({
           isActive: true,

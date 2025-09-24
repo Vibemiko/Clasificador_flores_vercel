@@ -128,9 +128,14 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               <video
                 ref={videoRef}
                 autoPlay
-                muted
                 playsInline
+                muted
                 className="w-full aspect-video object-cover"
+                onLoadedMetadata={() => setIsVideoReady(true)}
+                onError={(e) => {
+                  console.error('Video error:', e);
+                  setIsVideoReady(false);
+                }}
               />
               
               {!isVideoReady && (
