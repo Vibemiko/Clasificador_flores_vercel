@@ -23,11 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Model files - Large binary files for TensorFlow.js
-public/models/*.bin
-group1-shard*.bin
-*.bin
-
 # Model artifacts
 public/models/variables/
 *.pb
