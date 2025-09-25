@@ -72,7 +72,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 <Upload className="mx-auto h-16 w-16 text-emerald-500" />
               </motion.div>
               <p className="text-lg font-medium text-emerald-700">
-                {isDragReject ? 'File type not supported' : 'Drop your image here'}
+                {isDragReject ? 'Tipo de archivo no soportado' : 'Soltá tu imagen acá'}
               </p>
             </motion.div>
           ) : (
@@ -98,13 +98,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               
               <div className="space-y-2">
                 <p className="text-lg font-semibold text-slate-700">
-                  Upload a flower image
+                  Subí una imagen de flor
                 </p>
                 <p className="text-sm text-slate-500">
-                  Drag and drop or click to select
+                  Arrastrá y soltá o hacé clic para seleccionar
                 </p>
                 <p className="text-xs text-slate-400">
-                  Supports JPEG, PNG, GIF, WebP (max 10MB)
+                  Soporta JPEG, PNG, GIF, WebP (máx 10MB)
                 </p>
               </div>
               
@@ -116,7 +116,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 disabled={isProcessing}
               >
                 <ImageIcon className="h-5 w-5" />
-                Choose Image
+                Elegir Imagen
               </motion.button>
             </motion.div>
           )}
@@ -134,7 +134,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <p className="text-sm font-medium text-red-800">Upload failed</p>
+                <p className="text-sm font-medium text-red-800">Error al subir</p>
                 {fileRejections.map(({ file, errors }) => (
                   <div key={file.name} className="text-sm text-red-600">
                     <span className="font-medium">{file.name}:</span>

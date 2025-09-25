@@ -15,13 +15,15 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
   onClear,
   className = ''
 }) => {
-  const [filter, setFilter] = useState<'all' | 'daisy' | 'dandelion'>('all');
+  const [filter, setFilter] = useState<'all' | 'margarita' | 'diente'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'confidence'>('newest');
 
   const filteredResults = results
     .filter(result => {
       if (filter === 'all') return true;
-      return result.className.toLowerCase().includes(filter);
+      if (filter === 'margarita') return result.className.toLowerCase().includes('margarita');
+      if (filter === 'diente') return result.className.toLowerCase().includes('diente');
+      return false;
     })
     .sort((a, b) => {
       if (sortBy === 'newest') {
@@ -32,8 +34,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
 
   const stats = {
     total: results.length,
-    daisies: results.filter(r => r.className.toLowerCase().includes('daisy')).length,
-    dandelions: results.filter(r => r.className.toLowerCase().includes('dandelion')).length,
+    margaritas: results.filter(r => r.className.toLowerCase().includes('margarita')).length,
+    dientes: results.filter(r => r.className.toLowerCase().includes('diente')).length,
     avgConfidence: results.length > 0 
       ? results.reduce((sum, r) => sum + r.confidence, 0) / results.length 
       : 0
@@ -43,9 +45,9 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
     return (
       <div className={`text-center py-12 ${className}`}>
         <History className="mx-auto h-16 w-16 text-slate-300 mb-4" />
-        <h3 className="text-lg font-semibold text-slate-600 mb-2">No results yet</h3>
+        <h3 className="text-lg font-semibold text-slate-600 mb-2">Aún no hay resultados</h3>
         <p className="text-slate-500">
-          Upload an image or use your camera to start identifying flowers!
+          ¡Subí una imagen o usá tu cámara para empezar a identificar flores!
         </p>
       </div>
     );
@@ -58,7 +60,7 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <History className="h-6 w-6 text-emerald-600" />
-            <h2 className="text-xl font-bold text-slate-800">Results History</h2>
+            <h2 className="text-xl font-bold text-slate-800">Historial de Resultados</h2>
           </div>
           
           {onClear && results.length > 0 && (
@@ -69,7 +71,7 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
               whileTap={{ scale: 0.95 }}
             >
               <Trash2 className="h-4 w-4" />
-              Clear All
+              Limpiar Todo
             </motion.button>
           )}
         </div>
@@ -78,21 +80,21 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-3 bg-slate-50 rounded-lg">
             <div className="text-2xl font-bold text-slate-800">{stats.total}</div>
-            <div className="text-sm text-slate-600">Total Scans</div>
+            <div className="text-sm text-slate-600">Escaneos Totales</div>
           </div>
           <div className="text-center p-3 bg-yellow-50 rounded-lg">
-            <div className="text-2xl font-bold text-yellow-800">{stats.daisies}</div>
-            <div className="text-sm text-yellow-600">🌼 Daisies</div>
+            <div className="text-2xl font-bold text-yellow-800">{stats.margaritas}</div>
+            <div className="text-sm text-yellow-600">🌼 Margaritas</div>
           </div>
           <div className="text-center p-3 bg-orange-50 rounded-lg">
-            <div className="text-2xl font-bold text-orange-800">{stats.dandelions}</div>
-            <div className="text-sm text-orange-600">🌻 Dandelions</div>
+            <div className="text-2xl font-bold text-orange-800">{stats.dientes}</div>
+            <div className="text-sm text-orange-600">🌻 Dientes de León</div>
           </div>
           <div className="text-center p-3 bg-emerald-50 rounded-lg">
             <div className="text-2xl font-bold text-emerald-800">
               {stats.avgConfidence.toFixed(0)}%
             </div>
-            <div className="text-sm text-emerald-600">Avg. Confidence</div>
+            <div className="text-sm text-emerald-600">Confianza Prom.</div>
           </div>
         </div>
       </div>
@@ -102,11 +104,11 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5 text-slate-500" />
-            <span className="text-sm font-medium text-slate-700">Filter:</span>
+            <span className="text-sm font-medium text-slate-700">Filtrar:</span>
           </div>
           
           <div className="flex gap-2">
-            {(['all', 'daisy', 'dandelion'] as const).map((filterOption) => (
+            {(['all', 'margarita', 'diente'] as const).map((filterOption) => (
               <motion.button
                 key={filterOption}
                 onClick={() => setFilter(filterOption)}
@@ -118,7 +120,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {filterOption === 'all' ? 'All' : filterOption}
+                {filterOption === 'all' ? 'Todas' : 
+                 filterOption === 'margarita' ? 'Margaritas' : 'Dientes de León'}
               </motion.button>
             ))}
           </div>
@@ -130,8 +133,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
               onChange={(e) => setSortBy(e.target.value as 'newest' | 'confidence')}
               className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             >
-              <option value="newest">Newest First</option>
-              <option value="confidence">Highest Confidence</option>
+              <option value="newest">Más Recientes</option>
+              <option value="confidence">Mayor Confianza</option>
             </select>
           </div>
         </div>
@@ -158,8 +161,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
                   // Implement sharing functionality
                   if (navigator.share) {
                     navigator.share({
-                      title: `Identified: ${result.className}`,
-                      text: `I identified a ${result.className} with ${result.confidence.toFixed(1)}% confidence!`,
+                      title: `Identificado: ${result.className}`,
+                      text: `¡Identifiqué una ${result.className} con ${result.confidence.toFixed(1)}% de confianza!`,
                       url: window.location.href,
                     });
                   }
@@ -184,9 +187,9 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
           className="text-center py-12"
         >
           <Search className="mx-auto h-16 w-16 text-slate-300 mb-4" />
-          <h3 className="text-lg font-semibold text-slate-600 mb-2">No matching results</h3>
+          <h3 className="text-lg font-semibold text-slate-600 mb-2">No hay resultados coincidentes</h3>
           <p className="text-slate-500">
-            Try adjusting your filters to see more results.
+            Probá ajustar tus filtros para ver más resultados.
           </p>
         </motion.div>
       )}

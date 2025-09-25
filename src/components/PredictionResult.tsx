@@ -84,15 +84,15 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
         <div className="space-y-3">
           <ProgressBar
             value={result.confidence}
-            label="Confidence Score"
+            label="Nivel de Confianza"
             color={getConfidenceColor(result.confidence)}
           />
           
           <div className="flex items-center justify-center gap-2 text-sm">
             <Flower className="h-4 w-4 text-emerald-600" />
             <span className="text-slate-600 font-medium">
-              {result.confidence >= 80 ? 'High confidence' : 
-               result.confidence >= 60 ? 'Medium confidence' : 'Low confidence'}
+              {result.confidence >= 80 ? 'Alta confianza' : 
+               result.confidence >= 60 ? 'Confianza media' : 'Baja confianza'}
             </span>
           </div>
         </div>
@@ -107,7 +107,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                 whileTap={{ scale: 0.98 }}
               >
                 <Share2 className="h-4 w-4" />
-                Share
+                Compartir
               </motion.button>
             )}
             
@@ -119,7 +119,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
                 whileTap={{ scale: 0.98 }}
               >
                 <Download className="h-4 w-4" />
-                Download
+                Descargar
               </motion.button>
             )}
           </div>

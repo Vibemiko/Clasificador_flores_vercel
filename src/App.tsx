@@ -9,10 +9,10 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { useModel } from './hooks/useModel';
 import type { PredictionResult as PredictionResultType } from './types';
 
-type Tab = 'upload' | 'camera' | 'history';
+type Tab = 'subir' | 'camara' | 'historial';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<Tab>('upload');
+  const [activeTab, setActiveTab] = useState<Tab>('subir');
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentPrediction, setCurrentPrediction] = useState<PredictionResultType | null>(null);
@@ -21,7 +21,7 @@ function App() {
   const { modelState, loadModel, predict } = useModel();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleImageProcess = async (imageUrl: string, source: 'upload' | 'webcam') => {
+  const handleImageProcess = async (imageUrl: string, source: 'subir' | 'camara') => {
     setIsProcessing(true);
     setCurrentImage(imageUrl);
     setCurrentPrediction(null);
@@ -30,7 +30,7 @@ function App() {
       // Load model if not already loaded
       const model = await loadModel();
       if (!model) {
-        throw new Error('Failed to load model');
+        throw new Error('Error al cargar el modelo');
       }
 
       // Wait a bit more for model to be fully ready
@@ -42,7 +42,7 @@ function App() {
       
       await new Promise<void>((resolve, reject) => {
         img.onload = () => resolve();
-        img.onerror = () => reject(new Error('Failed to load image'));
+        img.onerror = () => reject(new Error('Error al cargar la imagen'));
         img.src = imageUrl;
       });
 
@@ -65,10 +65,10 @@ function App() {
         setCurrentPrediction(predictionResult);
         setResultsHistory(prev => [predictionResult, ...prev]);
       } else {
-        throw new Error('Prediction failed');
+        throw new Error('Error en la predicción');
       }
     } catch (error) {
-      console.error('Processing error:', error);
+      console.error('Error de procesamiento:', error);
       // Handle error (could show toast or error message)
     } finally {
       setIsProcessing(false);
@@ -76,11 +76,11 @@ function App() {
   };
 
   const handleImageUpload = (file: File, imageUrl: string) => {
-    handleImageProcess(imageUrl, 'upload');
+    handleImageProcess(imageUrl, 'subir');
   };
 
   const handleCameraCapture = (imageUrl: string) => {
-    handleImageProcess(imageUrl, 'webcam');
+    handleImageProcess(imageUrl, 'camara');
   };
 
   const clearHistory = () => {
@@ -88,9 +88,9 @@ function App() {
   };
 
   const tabs = [
-    { id: 'upload' as const, label: 'Upload', icon: Upload },
-    { id: 'camera' as const, label: 'Camera', icon: Camera },
-    { id: 'history' as const, label: 'History', icon: History }
+    { id: 'subir' as const, label: 'Subir', icon: Upload },
+    { id: 'camara' as const, label: 'Cámara', icon: Camera },
+    { id: 'historial' as const, label: 'Historial', icon: History }
   ];
 
   return (
@@ -115,8 +115,8 @@ function App() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-800">FlowerAI</h1>
-                <p className="text-xs text-slate-500">Intelligent Flower Recognition</p>
+                <h1 className="text-xl font-bold text-slate-800">FloraIA</h1>
+                <p className="text-xs text-slate-500">Reconocimiento Inteligente de Flores</p>
               </div>
             </motion.div>
 
@@ -125,12 +125,12 @@ function App() {
                 {modelState.isLoaded ? (
                   <>
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                    <span className="text-sm font-medium text-emerald-700">Model Ready</span>
+                    <span className="text-sm font-medium text-emerald-700">Modelo Listo</span>
                   </>
                 ) : modelState.isLoading ? (
                   <>
                     <Zap className="h-4 w-4 text-amber-600 animate-pulse" />
-                    <span className="text-sm font-medium text-amber-700">Loading...</span>
+                    <span className="text-sm font-medium text-amber-700">Cargando...</span>
                   </>
                 ) : modelState.error ? (
                   <>
@@ -140,7 +140,7 @@ function App() {
                 ) : (
                   <>
                     <div className="w-4 h-4 border-2 border-slate-300 rounded-full" />
-                    <span className="text-sm font-medium text-slate-600">Idle</span>
+                    <span className="text-sm font-medium text-slate-600">Inactivo</span>
                   </>
                 )}
               </div>
@@ -172,7 +172,7 @@ function App() {
                   >
                     <Icon className="h-5 w-5" />
                     {tab.label}
-                    {tab.id === 'history' && resultsHistory.length > 0 && (
+                    {tab.id === 'historial' && resultsHistory.length > 0 && (
                       <motion.span
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -190,9 +190,9 @@ function App() {
 
         {/* Content */}
         <AnimatePresence mode="wait">
-          {activeTab === 'upload' && (
+          {activeTab === 'subir' && (
             <motion.div
-              key="upload"
+              key="subir"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -202,7 +202,7 @@ function App() {
               {/* Upload Section */}
               <div className="space-y-6">
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-200">
-                  <h2 className="text-xl font-bold text-slate-800 mb-4">Upload Image</h2>
+                  <h2 className="text-xl font-bold text-slate-800 mb-4">Subir Imagen</h2>
                   <ImageUploader
                     onImageSelect={handleImageUpload}
                     isProcessing={isProcessing}
@@ -221,12 +221,12 @@ function App() {
                       exit={{ opacity: 0, scale: 0.9 }}
                       className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-slate-200"
                     >
-                      <LoadingSpinner size="lg" text="Analyzing flower..." />
+                      <LoadingSpinner size="lg" text="Analizando flor..." />
                       {currentImage && (
                         <div className="mt-6">
                           <img
                             src={currentImage}
-                            alt="Processing"
+                            alt="Procesando"
                             className="w-full h-48 object-cover rounded-lg opacity-50"
                           />
                         </div>
@@ -251,10 +251,10 @@ function App() {
                     >
                       <div className="text-6xl mb-6">🌸</div>
                       <h3 className="text-xl font-semibold text-slate-700 mb-3">
-                        Ready to identify flowers
+                        Listo para identificar flores
                       </h3>
                       <p className="text-slate-500">
-                        Upload an image to see AI-powered flower identification in action.
+                        Subí una imagen para ver la identificación de flores con IA en acción.
                       </p>
                     </motion.div>
                   )}
@@ -263,9 +263,9 @@ function App() {
             </motion.div>
           )}
 
-          {activeTab === 'camera' && (
+          {activeTab === 'camara' && (
             <motion.div
-              key="camera"
+              key="camara"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -275,7 +275,7 @@ function App() {
               {/* Camera Section */}
               <div className="space-y-6">
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-200">
-                  <h2 className="text-xl font-bold text-slate-800 mb-4">Camera Capture</h2>
+                  <h2 className="text-xl font-bold text-slate-800 mb-4">Captura con Cámara</h2>
                   <CameraCapture
                     onCapture={handleCameraCapture}
                     isProcessing={isProcessing}
@@ -294,18 +294,18 @@ function App() {
                       exit={{ opacity: 0, scale: 0.9 }}
                       className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-slate-200"
                     >
-                      <LoadingSpinner size="lg" text="Analyzing captured photo..." />
+                      <LoadingSpinner size="lg" text="Analizando foto capturada..." />
                       {currentImage && (
                         <div className="mt-6">
                           <img
                             src={currentImage}
-                            alt="Processing"
+                            alt="Procesando"
                             className="w-full h-48 object-cover rounded-lg opacity-50"
                           />
                         </div>
                       )}
                     </motion.div>
-                  ) : currentPrediction && currentPrediction.source === 'webcam' ? (
+                  ) : currentPrediction && currentPrediction.source === 'camara' ? (
                     <motion.div
                       key="result"
                       initial={{ opacity: 0, scale: 0.9 }}
@@ -324,10 +324,10 @@ function App() {
                     >
                       <div className="text-6xl mb-6">📸</div>
                       <h3 className="text-xl font-semibold text-slate-700 mb-3">
-                        Camera ready
+                        Cámara lista
                       </h3>
                       <p className="text-slate-500">
-                        Capture a photo to identify flowers instantly with your device camera.
+                        Capturá una foto para identificar flores al instante con la cámara de tu dispositivo.
                       </p>
                     </motion.div>
                   )}
@@ -336,9 +336,9 @@ function App() {
             </motion.div>
           )}
 
-          {activeTab === 'history' && (
+          {activeTab === 'historial' && (
             <motion.div
-              key="history"
+              key="historial"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

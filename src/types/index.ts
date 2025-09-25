@@ -4,7 +4,7 @@ export interface PredictionResult {
   confidence: number;
   timestamp: Date;
   imageUrl: string;
-  source: 'upload' | 'webcam';
+  source: 'subir' | 'camara';
 }
 
 export interface ModelState {

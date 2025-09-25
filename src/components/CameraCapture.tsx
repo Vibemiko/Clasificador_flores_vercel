@@ -88,9 +88,9 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
     return (
       <div className={`text-center p-8 ${className}`}>
         <AlertCircle className="mx-auto h-16 w-16 text-red-400 mb-4" />
-        <p className="text-lg font-medium text-slate-700 mb-2">Camera not supported</p>
+        <p className="text-lg font-medium text-slate-700 mb-2">Cámara no soportada</p>
         <p className="text-sm text-slate-500">
-          Your browser or device doesn't support camera access.
+          Tu navegador o dispositivo no soporta acceso a la cámara.
         </p>
       </div>
     );
@@ -113,10 +113,10 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
           }`}
           style={{ minHeight: '300px' }}
           onLoadedMetadata={() => {
-            console.log('📹 Video metadata loaded');
+            console.log('📹 Metadatos de video cargados');
           }}
           onError={(e) => {
-            console.error('📹 Video error:', e);
+            console.error('📹 Error de video:', e);
           }}
         />
 
@@ -131,12 +131,12 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             >
               <CameraOff className="h-20 w-20 text-slate-400 mb-6" />
               <h3 className="text-xl font-semibold text-white mb-2">
-                {cameraState.isActive ? 'Camera starting...' : 'Camera is off'}
+                {cameraState.isActive ? 'Iniciando cámara...' : 'Cámara apagada'}
               </h3>
               <p className="text-slate-300 mb-6">
                 {cameraState.isActive 
-                  ? 'Please wait while we initialize your camera'
-                  : 'Start your camera to capture flower images for identification'
+                  ? 'Por favor esperá mientras inicializamos tu cámara'
+                  : 'Iniciá tu cámara para capturar imágenes de flores para identificar'
                 }
               </p>
               
@@ -146,7 +146,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-sm font-medium text-red-200">Camera Error</p>
+                        <p className="text-sm font-medium text-red-200">Error de Cámara</p>
                         <p className="text-sm text-red-300 mt-1">{cameraState.error}</p>
                       </div>
                     </div>
@@ -160,7 +160,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <RefreshCw className="h-4 w-4" />
-                      Retry
+                      Reintentar
                     </motion.button>
                     
                     <motion.button
@@ -170,14 +170,14 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <Camera className="h-4 w-4" />
-                      Start Camera
+                      Iniciar Cámara
                     </motion.button>
                   </div>
                 </div>
               ) : cameraState.isActive ? (
                 <div className="flex items-center gap-3 text-amber-300">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-300"></div>
-                  <span>Initializing camera...</span>
+                  <span>Inicializando cámara...</span>
                 </div>
               ) : (
                 <motion.button
@@ -187,7 +187,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                   whileTap={{ scale: 0.95 }}
                 >
                   <Camera className="h-5 w-5" />
-                  Start Camera
+                  Iniciar Cámara
                 </motion.button>
               )}
             </motion.div>
@@ -213,7 +213,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               <div className="absolute top-4 right-4 z-10">
                 <div className="flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium">
                   <CheckCircle className="h-4 w-4" />
-                  Camera Active
+                  Cámara Activa
                 </div>
               </div>
 
@@ -227,7 +227,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                     whileTap={{ scale: 0.95 }}
                   >
                     <Play className="h-5 w-5" />
-                    Start Video
+                    Iniciar Video
                   </motion.button>
                 </div>
               )}
@@ -250,7 +250,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             whileTap={!isProcessing && videoStatus.isPlaying ? { scale: 0.95 } : {}}
           >
             <Capture className="h-5 w-5" />
-            {isProcessing ? 'Processing...' : 'Capture Photo'}
+            {isProcessing ? 'Procesando...' : 'Capturar Foto'}
           </motion.button>
           
           <motion.button
@@ -260,7 +260,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             whileTap={{ scale: 0.95 }}
           >
             <CameraOff className="h-4 w-4" />
-            Stop
+            Detener
           </motion.button>
         </motion.div>
       )}

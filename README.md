@@ -1,71 +1,71 @@
-# FlowerAI - Intelligent Flower Recognition
+# FloraIA - Reconocimiento Inteligente de Flores
 
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22.0-orange.svg)](https://www.tensorflow.org/js)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC.svg)](https://tailwindcss.com/)
 
-A modern, AI-powered flower identification application that uses machine learning to classify daisies and dandelions with high accuracy. Built with React, TypeScript, and TensorFlow.js for real-time image recognition through both file uploads and webcam capture.
+Una aplicación moderna de identificación de flores con inteligencia artificial que utiliza aprendizaje automático para clasificar margaritas y dientes de león con alta precisión. Construida con React, TypeScript y TensorFlow.js para reconocimiento de imágenes en tiempo real a través de carga de archivos y captura con cámara web.
 
-## 🌟 Features
+## 🌟 Características
 
-- **Real-time Image Recognition**: Identify flowers instantly using advanced CNN models
-- **Dual Input Methods**: Support for both file uploads and live webcam capture  
-- **Spanish Classification**: Returns "Margarita" (Daisy) and "Diente de Leon" (Dandelion) in Spanish
-- **Interactive UI**: Modern glassmorphism design with smooth animations
-- **Results History**: Comprehensive gallery with filtering and statistics
-- **Confidence Scoring**: Visual progress bars showing prediction confidence
-- **Responsive Design**: Optimized for mobile, tablet, and desktop devices
-- **Export Capabilities**: Share and download identification results
-- **Error Handling**: Graceful fallbacks and retry mechanisms
+- **Reconocimiento de Imágenes en Tiempo Real**: Identificá flores al instante usando modelos CNN avanzados
+- **Métodos de Entrada Duales**: Soporte para carga de archivos y captura en vivo con cámara web
+- **Clasificación en Español**: Devuelve "Margarita" y "Diente de León" en español argentino
+- **Interfaz Interactiva**: Diseño glassmorphism moderno con animaciones suaves
+- **Historial de Resultados**: Galería completa con filtrado y estadísticas
+- **Puntuación de Confianza**: Barras de progreso visuales mostrando la confianza de la predicción
+- **Diseño Responsivo**: Optimizado para dispositivos móviles, tablets y escritorio
+- **Capacidades de Exportación**: Compartir y descargar resultados de identificación
+- **Manejo de Errores**: Respaldos elegantes y mecanismos de reintento
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
-### Prerequisites
+### Requisitos Previos
 
-#### System Requirements (Debian/Ubuntu)
+#### Requisitos del Sistema (Debian/Ubuntu)
 
-First, update your package list and install the required system dependencies:
+Primero, actualizá tu lista de paquetes e instalá las dependencias del sistema requeridas:
 
 ```bash
-# Update package list
+# Actualizar lista de paquetes
 sudo apt update
 
-# Install essential build tools and dependencies
+# Instalar herramientas de construcción esenciales y dependencias
 sudo apt install -y curl wget git build-essential
 
-# Install Node.js 18.x (recommended method via NodeSource repository)
+# Instalar Node.js 18.x (método recomendado vía repositorio NodeSource)
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs npm
 
-# Verify installations
-node --version  # Should show v18.x.x or higher
-npm --version   # Should show npm version
-git --version   # Should show git version
+# Verificar instalaciones
+node --version  # Debería mostrar v18.x.x o superior
+npm --version   # Debería mostrar la versión de npm
+git --version   # Debería mostrar la versión de git
 ```
 
-#### General Prerequisites
+#### Requisitos Generales
 
-- Node.js 18.0 or higher
-- npm or yarn package manager
-- Modern web browser with camera support (for webcam features)
+- Node.js 18.0 o superior
+- Administrador de paquetes npm o yarn
+- Navegador web moderno con soporte de cámara (para características de cámara web)
 
-### Installation
+### Instalación
 
-1. **Clone the repository**
+1. **Clonar el repositorio**
    ```bash
    git clone <repository-url>
-   cd flower-ai
+   cd flora-ia
    ```
 
-2. **Install dependencies**
+2. **Instalar dependencias**
    ```bash
    npm install
    ```
 
-3. **Set up model files**
+3. **Configurar archivos del modelo**
    
-   Place the following files in the `public/models/` directory:
+   Colocá los siguientes archivos en el directorio `public/models/`:
    ```
    public/models/
    ├── model.json
@@ -81,189 +81,190 @@ git --version   # Should show git version
    └── group1-shard10of10.bin
    ```
 
-4. **Start the development server**
+4. **Iniciar el servidor de desarrollo**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+5. **Abrir tu navegador**
    
-   Navigate to `http://localhost:5173` to start using FlowerAI.
+   Navegá a `http://localhost:5173` para empezar a usar FloraIA.
 
-## 📱 Usage
+## 📱 Uso
 
-### Image Upload
-1. Click on the "Upload" tab
-2. Drag and drop an image or click "Choose Image"
-3. Wait for the AI model to process the image
-4. View the identification result with confidence score
+### Carga de Imagen
+1. Hacé clic en la pestaña "Subir"
+2. Arrastrá y soltá una imagen o hacé clic en "Elegir Imagen"
+3. Esperá a que el modelo de IA procese la imagen
+4. Mirá el resultado de identificación con puntuación de confianza
 
-### Camera Capture
-1. Click on the "Camera" tab
-2. Grant camera permissions when prompted
-3. Point your camera at a flower
-4. Click "Capture Photo" to identify the flower
-5. View the real-time identification results
+### Captura con Cámara
+1. Hacé clic en la pestaña "Cámara"
+2. Otorgá permisos de cámara cuando se solicite
+3. Apuntá tu cámara hacia una flor
+4. Hacé clic en "Capturar Foto" para identificar la flor
+5. Mirá los resultados de identificación en tiempo real
 
-### Results History
-1. Click on the "History" tab
-2. Browse through all your previous identifications
-3. Filter results by flower type or sort by confidence
-4. Share or download individual results
+### Historial de Resultados
+1. Hacé clic en la pestaña "Historial"
+2. Navegá por todas tus identificaciones anteriores
+3. Filtrá resultados por tipo de flor u ordenar por confianza
+4. Compartí o descargá resultados individuales
 
-## 🛠️ Technical Architecture
+## 🛠️ Arquitectura Técnica
 
-### Model Integration
-- **Framework**: TensorFlow.js for browser-based inference
-- **Model Type**: Convolutional Neural Network (CNN)
-- **Input Size**: 192x192x3 RGB images
-- **Output**: Binary classification (Daisy vs Dandelion)
-- **Performance**: Real-time inference with confidence scoring
+### Integración del Modelo
+- **Framework**: TensorFlow.js para inferencia basada en navegador
+- **Tipo de Modelo**: Red Neuronal Convolucional (CNN)
+- **Tamaño de Entrada**: Imágenes RGB de 192x192x3
+- **Salida**: Clasificación binaria (Margarita vs Diente de León)
+- **Rendimiento**: Inferencia en tiempo real con puntuación de confianza
 
-### Component Structure
+### Estructura de Componentes
 ```
 src/
-├── components/          # Reusable UI components
+├── components/          # Componentes de UI reutilizables
 │   ├── CameraCapture.tsx
 │   ├── ImageUploader.tsx
 │   ├── PredictionResult.tsx
 │   ├── ResultsHistory.tsx
 │   ├── LoadingSpinner.tsx
 │   └── ProgressBar.tsx
-├── hooks/              # Custom React hooks
-│   ├── useModel.ts     # TensorFlow.js model management
-│   └── useCamera.ts    # Camera access and capture
-├── types/              # TypeScript type definitions
-└── App.tsx            # Main application component
+├── hooks/              # Hooks personalizados de React
+│   ├── useModel.ts     # Gestión del modelo TensorFlow.js
+│   └── useCamera.ts    # Acceso y captura de cámara
+├── types/              # Definiciones de tipos TypeScript
+└── App.tsx            # Componente principal de la aplicación
 ```
 
-### Key Dependencies
-- **React 18.3.1**: Modern React with concurrent features
-- **TypeScript 5.5.3**: Type-safe development
-- **TensorFlow.js 4.22.0**: Machine learning inference
-- **Framer Motion 12.23.21**: Smooth animations
-- **Tailwind CSS 3.4.1**: Utility-first styling
-- **React Dropzone 14.3.8**: File upload handling
+### Dependencias Clave
+- **React 18.3.1**: React moderno con características concurrentes
+- **TypeScript 5.5.3**: Desarrollo con tipos seguros
+- **TensorFlow.js 4.22.0**: Inferencia de aprendizaje automático
+- **Framer Motion 12.23.21**: Animaciones suaves
+- **Tailwind CSS 3.4.1**: Estilizado utility-first
+- **React Dropzone 14.3.8**: Manejo de carga de archivos
 
-## 🔧 Development
+## 🔧 Desarrollo
 
-### Available Scripts
+### Scripts Disponibles
 
 ```bash
-# Start development server
+# Iniciar servidor de desarrollo
 npm run dev
 
-# Start development server with network access (accessible from other devices)
+# Iniciar servidor de desarrollo con acceso de red (accesible desde otros dispositivos)
 npm run dev -- --host
 
-# Start development server with network access (accessible from other devices)
-npm run dev -- --host
-
-# Start development server with network access (accessible from other devices)
-npm run dev -- --host
-
-# Build for production
+# Construir para producción
 npm run build
 
-# Preview production build
+# Previsualizar construcción de producción
 npm run preview
 
-# Run linting
+# Ejecutar linting
 npm run lint
 ```
 
-### Environment Setup
+### Configuración del Entorno
 
-The application runs entirely in the browser with no backend requirements. The TensorFlow.js model is loaded directly from the public directory.
+La aplicación se ejecuta completamente en el navegador sin requisitos de backend. El modelo TensorFlow.js se carga directamente desde el directorio público.
 
-### Browser Compatibility
+### Compatibilidad de Navegadores
 
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
 - Edge 90+
 
-## 📊 Performance
+## 📊 Rendimiento
 
-- **Model Size**: ~37MB (distributed across 10 shard files)
-- **Load Time**: 2-5 seconds on first visit
-- **Inference Speed**: <500ms per image
-- **Memory Usage**: ~150MB during active use
-- **Accuracy**: 85-95% on test dataset
+- **Tamaño del Modelo**: ~37MB (distribuido en 10 archivos shard)
+- **Tiempo de Carga**: 2-5 segundos en la primera visita
+- **Velocidad de Inferencia**: <500ms por imagen
+- **Uso de Memoria**: ~150MB durante uso activo
+- **Precisión**: 85-95% en conjunto de datos de prueba
 
-## 🤝 Contributing
+## 🤝 Contribuir
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Hacé fork del repositorio
+2. Creá una rama de característica (`git checkout -b feature/caracteristica-increible`)
+3. Commitea tus cambios (`git commit -m 'Agregar característica increíble'`)
+4. Pusheá a la rama (`git push origin feature/caracteristica-increible`)
+5. Abrí un Pull Request
 
-## 📄 License
+## 📄 Licencia
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE](LICENSE) para detalles.
 
-## 🙏 Acknowledgments
+## 🙏 Reconocimientos
 
-- TensorFlow.js team for the machine learning framework
-- React team for the excellent UI library
-- Tailwind CSS for the utility-first CSS framework
-- Framer Motion for smooth animations
+- Equipo de TensorFlow.js por el framework de aprendizaje automático
+- Equipo de React por la excelente librería de UI
+- Tailwind CSS por el framework CSS utility-first
+- Framer Motion por las animaciones suaves
 
 ---
 
-## Version Log
+## Registro de Versiones
+
+### v1.3.0 - 2025-01-27
+- **Cambios:** Traducción completa de la interfaz de usuario y documentación al español argentino
+- **Características:** Interfaz completamente localizada, terminología argentina, mensajes de error en español
+- **Uso:** Experiencia de usuario completamente en español para usuarios argentinos
+- **Rendimiento:** Sin impacto en el rendimiento, solo cambios de localización
+- **Cambios Importantes:** Cambio de idioma de inglés a español argentino en toda la aplicación
 
 ### v1.2.2 - 2025-01-27
-- **Changes:** Fixed first image prediction failure and implemented Spanish flower names
-- **Features:** Enhanced model warm-up process with 3-stage initialization, Spanish classification output
-- **Usage:** First image upload now works reliably, returns "Margarita" and "Diente de Leon" in Spanish
-- **Performance:** Improved model loading stability with auto-initialization and proper warm-up sequence
-- **Breaking Changes:** Flower names now returned in Spanish instead of English
+- **Cambios:** Corregido fallo de predicción de primera imagen e implementados nombres de flores en español
+- **Características:** Proceso de calentamiento del modelo mejorado con inicialización de 3 etapas, salida de clasificación en español
+- **Uso:** La primera carga de imagen ahora funciona de manera confiable, devuelve "Margarita" y "Diente de León" en español
+- **Rendimiento:** Estabilidad de carga del modelo mejorada con auto-inicialización y secuencia de calentamiento adecuada
+- **Cambios Importantes:** Nombres de flores ahora devueltos en español en lugar de inglés
 
 ### v1.2.1 - 2025-01-27
-- **Changes:** Fixed critical camera display issue where video stream wasn't showing despite camera access
-- **Features:** Improved camera initialization with direct DOM manipulation approach
-- **Usage:** Camera functionality now works reliably across all supported browsers
-- **Performance:** Eliminated React state synchronization issues causing camera display problems
-- **Breaking Changes:** None
+- **Cambios:** Corregido problema crítico de visualización de cámara donde el stream de video no se mostraba a pesar del acceso a la cámara
+- **Características:** Inicialización de cámara mejorada con enfoque de manipulación directa del DOM
+- **Uso:** La funcionalidad de cámara ahora funciona de manera confiable en todos los navegadores soportados
+- **Rendimiento:** Eliminados problemas de sincronización de estado de React que causaban problemas de visualización de cámara
+- **Cambios Importantes:** Ninguno
 
 ### v1.2.0 - 2025-01-27
-- **Changes:** Added comprehensive results history with filtering and statistics dashboard
-- **Features:** Export/share functionality, improved error handling, mobile optimization
-- **Usage:** 40% increase in user engagement with history feature
-- **Performance:** Reduced memory usage by 15% through better tensor disposal
-- **Breaking Changes:** None
+- **Cambios:** Agregado historial completo de resultados con filtrado y panel de estadísticas
+- **Características:** Funcionalidad de exportar/compartir, manejo de errores mejorado, optimización móvil
+- **Uso:** 40% de aumento en el compromiso del usuario con la característica de historial
+- **Rendimiento:** Uso de memoria reducido en 15% a través de mejor disposición de tensores
+- **Cambios Importantes:** Ninguno
 
 ### v1.1.0 - 2025-01-20
-- **Changes:** Implemented real-time camera capture with overlay guides and improved UI animations
-- **Features:** Glassmorphism design system, progress bars for confidence scoring, responsive layout
-- **Usage:** Camera feature used by 65% of active users
-- **Performance:** Model loading time reduced to 3 seconds average
-- **Breaking Changes:** Updated model path from `/model.json` to `/models/model.json`
+- **Cambios:** Implementada captura de cámara en tiempo real con guías de superposición y animaciones de UI mejoradas
+- **Características:** Sistema de diseño glassmorphism, barras de progreso para puntuación de confianza, diseño responsivo
+- **Uso:** Característica de cámara usada por 65% de usuarios activos
+- **Rendimiento:** Tiempo de carga del modelo reducido a 3 segundos promedio
+- **Cambios Importantes:** Ruta del modelo actualizada de `/model.json` a `/models/model.json`
 
 ### v1.0.0 - 2025-01-15
-- **Changes:** Initial release with core flower identification functionality
-- **Features:** Image upload, drag-and-drop interface, basic prediction display
-- **Usage:** Successfully processes 95% of uploaded images
-- **Performance:** Average inference time of 450ms per image
-- **Model Accuracy:** 89% on validation dataset (Daisy vs Dandelion classification)
-- **Breaking Changes:** N/A (Initial release)
+- **Cambios:** Lanzamiento inicial con funcionalidad central de identificación de flores
+- **Características:** Carga de imagen, interfaz de arrastrar y soltar, visualización básica de predicción
+- **Uso:** Procesa exitosamente 95% de imágenes cargadas
+- **Rendimiento:** Tiempo promedio de inferencia de 450ms por imagen
+- **Precisión del Modelo:** 89% en conjunto de datos de validación (clasificación Margarita vs Diente de León)
+- **Cambios Importantes:** N/A (Lanzamiento inicial)
 
 ### v0.9.0-beta - 2025-01-10
-- **Changes:** Beta release for testing and feedback collection
-- **Features:** Basic TensorFlow.js integration, simple upload interface
-- **Usage:** Limited beta testing with 50 users
-- **Performance:** Model loading optimization, reduced bundle size by 20%
-- **Known Issues:** Camera permissions handling, mobile responsiveness improvements needed
+- **Cambios:** Lanzamiento beta para pruebas y recolección de comentarios
+- **Características:** Integración básica de TensorFlow.js, interfaz simple de carga
+- **Uso:** Pruebas beta limitadas con 50 usuarios
+- **Rendimiento:** Optimización de carga del modelo, tamaño del bundle reducido en 20%
+- **Problemas Conocidos:** Manejo de permisos de cámara, mejoras de responsividad móvil necesarias
 
 ### v0.8.0-alpha - 2025-01-05
-- **Changes:** Alpha release with core ML model integration
-- **Features:** Proof of concept for browser-based flower identification
-- **Usage:** Internal testing and development
-- **Performance:** Initial model conversion from Python to TensorFlow.js format
-- **Breaking Changes:** Complete rewrite from vanilla JavaScript to React/TypeScript
+- **Cambios:** Lanzamiento alfa con integración del modelo ML central
+- **Características:** Prueba de concepto para identificación de flores basada en navegador
+- **Uso:** Pruebas internas y desarrollo
+- **Rendimiento:** Conversión inicial del modelo de Python a formato TensorFlow.js
+- **Cambios Importantes:** Reescritura completa de JavaScript vanilla a React/TypeScript
 
 ---
 
-*Last updated: January 27, 2025*
+*Última actualización: 27 de enero de 2025*

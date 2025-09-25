@@ -21,14 +21,14 @@ export const useModel = () => {
     setModelState({ isLoading: true, isLoaded: false, error: null });
     
     try {
-      console.log('Loading TensorFlow.js model...');
+      console.log('Cargando modelo TensorFlow.js...');
       const loadedModel = await tf.loadGraphModel(MODEL_URL);
       
-      // Warm up the model with multiple dummy predictions to ensure stability
-      console.log('Warming up model...');
-      for (let i = 0; i < 3; i++) {
+          errorMessage = 'Permiso de cámara denegado. Por favor habilitá el acceso a la cámara en la configuración de tu navegador y refrescá la página.';
+      console.log('Calentando modelo...');
+          errorMessage = 'No se encontró cámara. Por favor conectá una cámara y probá de nuevo.';
         const dummyInput = tf.zeros([1, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, 3]);
-        const warmupPrediction = loadedModel.predict(dummyInput) as tf.Tensor;
+          errorMessage = 'La cámara ya está siendo usada por otra aplicación.';
         await warmupPrediction.data(); // Force execution
         dummyInput.dispose();
         warmupPrediction.dispose();
@@ -38,12 +38,12 @@ export const useModel = () => {
       
       setModel(loadedModel);
       setModelState({ isLoading: false, isLoaded: true, error: null });
-      console.log('Model loaded and warmed up successfully');
+      console.log('Modelo cargado y calentado exitosamente');
       
       return loadedModel;
     } catch (error) {
-      console.error('Error loading model:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Error cargando modelo:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       setModelState({ isLoading: false, isLoaded: false, error: errorMessage });
       setIsWarmedUp(false);
       return null;
@@ -52,7 +52,7 @@ export const useModel = () => {
 
   const predict = useCallback(async (imageElement: HTMLImageElement | HTMLVideoElement | HTMLCanvasElement): Promise<{ className: string; confidence: number } | null> => {
     if (!model || !isWarmedUp) {
-      console.warn('Model not loaded or not warmed up');
+      console.warn('Modelo no cargado o no calentado');
       return null;
     }
 
@@ -85,7 +85,7 @@ export const useModel = () => {
         };
       }
     } catch (error) {
-      console.error('Prediction error:', error);
+      console.error('Error de predicción:', error);
       return null;
     }
   }, [model, isWarmedUp]);

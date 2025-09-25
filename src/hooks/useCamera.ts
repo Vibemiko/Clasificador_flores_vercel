@@ -190,7 +190,7 @@ export const useCamera = () => {
         setCameraState(prev => ({ 
           ...prev, 
           isSupported: false, 
-          error: 'Camera not supported in this browser' 
+          error: 'Cámara no soportada en este navegador' 
         }));
       }
     };
@@ -200,7 +200,7 @@ export const useCamera = () => {
 
   useEffect(() => {
     return () => {
-      console.log('🧹 Cleaning up camera hook');
+      console.log('🧹 Limpiando hook de cámara');
       stopCamera();
     };
   }, [stopCamera]);
