@@ -181,6 +181,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Version Log
 
+### v1.2.1 - 2025-01-27
+- **Changes:** Fixed critical camera display issue where video stream wasn't showing despite camera access
+- **Features:** Improved camera initialization with direct DOM manipulation approach
+- **Usage:** Camera functionality now works reliably across all supported browsers
+- **Performance:** Eliminated React state synchronization issues causing camera display problems
+- **Breaking Changes:** None
+
 ### v1.2.0 - 2025-01-27
 - **Changes:** Added comprehensive results history with filtering and statistics dashboard
 - **Features:** Export/share functionality, improved error handling, mobile optimization

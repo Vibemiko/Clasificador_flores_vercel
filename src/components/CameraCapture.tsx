@@ -265,21 +265,6 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
         </motion.div>
       )}
 
-      {/* Debug information */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="mt-4 p-3 bg-slate-100 rounded-lg text-xs">
-          <strong>Debug Info:</strong>
-          <pre>{JSON.stringify({ 
-            cameraState, 
-            videoStatus,
-            videoElement: {
-              srcObject: !!videoRef.current?.srcObject,
-              readyState: videoRef.current?.readyState,
-              paused: videoRef.current?.paused
-            }
-          }, null, 2)}</pre>
-        </div>
-      )}
     </div>
   );
 };
