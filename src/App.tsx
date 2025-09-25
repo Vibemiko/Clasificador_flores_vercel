@@ -352,6 +352,68 @@ function App() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* About Section */}
+      <footer className="bg-white/80 backdrop-blur-sm border-t border-slate-200 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-center gap-3 mb-6"
+            >
+              <div className="relative">
+                <Flower2 className="h-6 w-6 text-emerald-600" />
+                <motion.div
+                  className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 rounded-full"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </div>
+              <h3 className="text-lg font-bold text-slate-800">Acerca del Proyecto</h3>
+            </motion.div>
+            
+            <div className="bg-slate-50 rounded-xl p-6 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-800 text-sm uppercase tracking-wide">Información Académica</h4>
+                  <div className="space-y-2 text-sm text-slate-600">
+                    <p><span className="font-medium">Materia:</span> Modelizado de Sistemas de IA</p>
+                    <p><span className="font-medium">Grupo:</span> 2</p>
+                    <p><span className="font-medium">Proyecto:</span> Modelo de clasificación convolucional para determinar tipos de flores (margarita o diente de león)</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-slate-800 text-sm uppercase tracking-wide">Integrantes del Equipo</h4>
+                  <div className="grid grid-cols-1 gap-2 text-sm text-slate-600">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                      <span>Sergio Pascuzzo</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                      <span>Lautaro Nuñez</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                      <span>Nadia T. D'Angelo Batih</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                      <span>Miguel A. Tarifa</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-xs text-slate-500 mt-4">
+              © 2025 FloraIA - Desarrollado con ❤️ para el reconocimiento inteligente de flores
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
