@@ -46,13 +46,10 @@ git --version   # Should show git version
 **Alternative Node.js Installation Methods:**
 
 ```bash
-# Option 1: Using snap (if available)
-sudo snap install node --classic
-
-# Option 2: Using apt (may have older version)
+# Option 1: Using apt (may have older version)
 sudo apt install -y nodejs npm
 
-# Option 3: Using nvm (Node Version Manager) - recommended for development
+# Option 2: Using nvm (Node Version Manager) - recommended for development
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 source ~/.bashrc
 nvm install 18
