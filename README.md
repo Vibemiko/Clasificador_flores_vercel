@@ -81,21 +81,12 @@ git --version   # Should show git version
    └── group1-shard10of10.bin
    ```
 
-4. **UI Assets**
-   
-   The application includes decorative UI assets:
-   ```
-   public/
-   ├── flor.jpg                              # Cartoon flower image for UI decoration
-   └── files_3571772-1758812923899-flor.jpg  # Additional cartoon flower image for UI decoration
-   ```
-
-5. **Start the development server**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-6. **Open your browser**
+5. **Open your browser**
    
    Navigate to `http://localhost:5173` to start using FlowerAI.
 
