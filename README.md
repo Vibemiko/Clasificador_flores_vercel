@@ -22,6 +22,45 @@ A modern, AI-powered flower identification application that uses machine learnin
 
 ### Prerequisites
 
+#### System Requirements (Debian/Ubuntu)
+
+First, update your package list and install the required system dependencies:
+
+```bash
+# Update package list
+sudo apt update
+
+# Install essential build tools and dependencies
+sudo apt install -y curl wget git build-essential
+
+# Install Node.js 18.x (recommended method via NodeSource repository)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installations
+node --version  # Should show v18.x.x or higher
+npm --version   # Should show npm version
+git --version   # Should show git version
+```
+
+**Alternative Node.js Installation Methods:**
+
+```bash
+# Option 1: Using snap (if available)
+sudo snap install node --classic
+
+# Option 2: Using apt (may have older version)
+sudo apt install -y nodejs npm
+
+# Option 3: Using nvm (Node Version Manager) - recommended for development
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install 18
+nvm use 18
+```
+
+#### General Prerequisites
+
 - Node.js 18.0 or higher
 - npm or yarn package manager
 - Modern web browser with camera support (for webcam features)
