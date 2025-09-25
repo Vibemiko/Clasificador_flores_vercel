@@ -10,7 +10,8 @@ A modern, AI-powered flower identification application that uses machine learnin
 ## 🌟 Features
 
 - **Real-time Image Recognition**: Identify flowers instantly using advanced CNN models
-- **Dual Input Methods**: Support for both file uploads and live webcam capture
+- **Dual Input Methods**: Support for both file uploads and live webcam capture  
+- **Spanish Classification**: Returns "Margarita" (Daisy) and "Diente de Leon" (Dandelion) in Spanish
 - **Interactive UI**: Modern glassmorphism design with smooth animations
 - **Results History**: Comprehensive gallery with filtering and statistics
 - **Confidence Scoring**: Visual progress bars showing prediction confidence
