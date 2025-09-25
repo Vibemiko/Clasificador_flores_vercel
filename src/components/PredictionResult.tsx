@@ -18,7 +18,7 @@ export const PredictionResult: React.FC<PredictionResultProps> = ({
   className = ''
 }) => {
   const getFlowerEmoji = (className: string) => {
-    return className.toLowerCase().includes('daisy') ? '🌼' : '🌻';
+    return className.toLowerCase().includes('margarita') ? '🌼' : '🌻';
   };
 
   const getConfidenceColor = (confidence: number): 'emerald' | 'amber' | 'red' => {

@@ -63,12 +63,12 @@ export const useModel = () => {
       
       if (confidence < 0.5) {
         return {
-          className: 'Daisy',
+          className: 'Margarita',
           confidence: (1 - confidence) * 100
         };
       } else {
         return {
-          className: 'Dandelion',
+          className: 'Diente de Leon',
           confidence: confidence * 100
         };
       }

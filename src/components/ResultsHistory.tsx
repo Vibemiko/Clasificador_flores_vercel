@@ -21,7 +21,9 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
   const filteredResults = results
     .filter(result => {
       if (filter === 'all') return true;
-      return result.className.toLowerCase().includes(filter);
+      if (filter === 'daisy') return result.className.toLowerCase().includes('margarita');
+      if (filter === 'dandelion') return result.className.toLowerCase().includes('diente');
+      return false;
     })
     .sort((a, b) => {
       if (sortBy === 'newest') {
@@ -32,8 +34,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
 
   const stats = {
     total: results.length,
-    daisies: results.filter(r => r.className.toLowerCase().includes('daisy')).length,
-    dandelions: results.filter(r => r.className.toLowerCase().includes('dandelion')).length,
+    daisies: results.filter(r => r.className.toLowerCase().includes('margarita')).length,
+    dandelions: results.filter(r => r.className.toLowerCase().includes('diente')).length,
     avgConfidence: results.length > 0 
       ? results.reduce((sum, r) => sum + r.confidence, 0) / results.length 
       : 0
@@ -82,11 +84,11 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
           </div>
           <div className="text-center p-3 bg-yellow-50 rounded-lg">
             <div className="text-2xl font-bold text-yellow-800">{stats.daisies}</div>
-            <div className="text-sm text-yellow-600">🌼 Daisies</div>
+            <div className="text-sm text-yellow-600">🌼 Margaritas</div>
           </div>
           <div className="text-center p-3 bg-orange-50 rounded-lg">
             <div className="text-2xl font-bold text-orange-800">{stats.dandelions}</div>
-            <div className="text-sm text-orange-600">🌻 Dandelions</div>
+            <div className="text-sm text-orange-600">🌻 Diente de Leon</div>
           </div>
           <div className="text-center p-3 bg-emerald-50 rounded-lg">
             <div className="text-2xl font-bold text-emerald-800">
@@ -118,7 +120,8 @@ export const ResultsHistory: React.FC<ResultsHistoryProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {filterOption === 'all' ? 'All' : filterOption}
+                {filterOption === 'all' ? 'All' : 
+                 filterOption === 'daisy' ? 'Margarita' : 'Diente de Leon'}
               </motion.button>
             ))}
           </div>
