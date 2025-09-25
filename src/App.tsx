@@ -33,6 +33,9 @@ function App() {
         throw new Error('Failed to load model');
       }
 
+      // Wait a bit more for model to be fully ready
+      await new Promise(resolve => setTimeout(resolve, 200));
+
       // Create image element for prediction
       const img = new Image();
       img.crossOrigin = 'anonymous';
@@ -42,6 +45,9 @@ function App() {
         img.onerror = () => reject(new Error('Failed to load image'));
         img.src = imageUrl;
       });
+
+      // Ensure image is fully loaded and rendered
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       // Make prediction
       const result = await predict(img);
