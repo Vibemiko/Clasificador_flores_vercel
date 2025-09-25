@@ -102,6 +102,24 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       <div className="relative bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
+        {/* Video element - always present in DOM */}
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className={`w-full aspect-video object-cover bg-slate-800 transition-opacity duration-300 ${
+            showVideo ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ minHeight: '300px' }}
+          onLoadedMetadata={() => {
+            console.log('📹 Video metadata loaded');
+          }}
+          onError={(e) => {
+            console.error('📹 Video error:', e);
+          }}
+        />
+
         <AnimatePresence mode="wait">
           {!showVideo ? (
             <motion.div
@@ -109,7 +127,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="aspect-video flex flex-col items-center justify-center p-8 text-center"
+              className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-slate-900"
             >
               <CameraOff className="h-20 w-20 text-slate-400 mb-6" />
               <h3 className="text-xl font-semibold text-white mb-2">
@@ -175,23 +193,8 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             </motion.div>
           ) : (
             <motion.div
-              key="camera-on"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative"
-            >
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="w-full aspect-video object-cover bg-slate-800"
-                style={{ minHeight: '300px' }}
-              />
-              
               {/* Camera overlay */}
-              <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute inset-0 pointer-events-none z-10">
                 <div className="absolute inset-4 border-2 border-white/20 rounded-lg">
                   <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-emerald-400"></div>
                   <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-emerald-400"></div>
@@ -201,7 +204,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               </div>
 
               {/* Status indicator */}
-              <div className="absolute top-4 right-4">
+              <div className="absolute top-4 right-4 z-10">
                 <div className="flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium">
                   <CheckCircle className="h-4 w-4" />
                   Camera Active
@@ -210,7 +213,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
 
               {/* Manual play button if video isn't playing */}
               {!videoStatus.isPlaying && (
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center z-10">
                   <motion.button
                     onClick={forceVideoPlay}
                     className="flex items-center gap-2 px-6 py-3 bg-white/90 hover:bg-white text-slate-800 rounded-lg font-medium shadow-lg"
