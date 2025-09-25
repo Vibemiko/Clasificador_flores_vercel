@@ -206,6 +206,20 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 
 ---
 
+## Objetivo del Programa
+
+**Materia:** Modelizado de Sistemas de IA  
+**Grupo:** 2  
+**Proyecto:** Modelo de clasificación convolucional para determinar tipos de flores (margarita o diente de león)
+
+### Integrantes:
+- Sergio Pascuzzo
+- Lautaro Nuñez
+- Nadia T. D'Angelo Batih
+- Miguel A. Tarifa
+
+---
+
 ## Registro de Versiones
 
 ### v1.3.0 - 2025-01-27
