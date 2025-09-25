@@ -24,15 +24,12 @@ export const useModel = () => {
       console.log('Cargando modelo TensorFlow.js...');
       const loadedModel = await tf.loadGraphModel(MODEL_URL);
       
-          errorMessage = 'Permiso de cámara denegado. Por favor habilitá el acceso a la cámara en la configuración de tu navegador y refrescá la página.';
       console.log('Calentando modelo...');
-          errorMessage = 'No se encontró cámara. Por favor conectá una cámara y probá de nuevo.';
-        const dummyInput = tf.zeros([1, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, 3]);
-          errorMessage = 'La cámara ya está siendo usada por otra aplicación.';
-        await warmupPrediction.data(); // Force execution
-        dummyInput.dispose();
-        warmupPrediction.dispose();
-      }
+      const dummyInput = tf.zeros([1, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, 3]);
+      const warmupPrediction = loadedModel.predict(dummyInput) as tf.Tensor;
+      await warmupPrediction.data(); // Force execution
+      dummyInput.dispose();
+      warmupPrediction.dispose();
       
       setIsWarmedUp(true);
       
