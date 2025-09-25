@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, CameraOff, Aperture as Capture, AlertCircle, RefreshCw } from 'lucide-react';
+import { Camera, CameraOff, Aperture as Capture, AlertCircle, RefreshCw, CheckCircle } from 'lucide-react';
 import { useCamera } from '../hooks/useCamera';
 import { LoadingSpinner } from './LoadingSpinner';
 
@@ -16,35 +16,35 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
   className = ''
 }) => {
   const { cameraState, videoRef, startCamera, stopCamera, captureFrame } = useCamera();
-  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<any>({});
 
+  // Debug information updater
   useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      const handleLoadedMetadata = () => {
-        console.log('Video metadata loaded');
-        setIsVideoReady(true);
-      };
-      
-      const handleCanPlay = () => {
-        console.log('Video can play');
-        setIsVideoReady(true);
-      };
-      
-      video.addEventListener('loadedmetadata', handleLoadedMetadata);
-      video.addEventListener('canplay', handleCanPlay);
-      
-      return () => {
-        video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        video.removeEventListener('canplay', handleCanPlay);
-      };
-    }
+    const updateDebugInfo = () => {
+      const video = videoRef.current;
+      if (video) {
+        setDebugInfo({
+          hasStream: !!video.srcObject,
+          readyState: video.readyState,
+          videoWidth: video.videoWidth,
+          videoHeight: video.videoHeight,
+          paused: video.paused,
+          ended: video.ended,
+          currentTime: video.currentTime
+        });
+      }
+    };
+
+    const interval = setInterval(updateDebugInfo, 1000);
+    return () => clearInterval(interval);
   }, [videoRef]);
 
   const handleCapture = () => {
     const imageUrl = captureFrame();
     if (imageUrl) {
       onCapture(imageUrl);
+    } else {
+      console.error('Failed to capture frame');
     }
   };
 
@@ -86,7 +86,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
               </p>
               
               {cameraState.error ? (
-                <div className="space-y-4">
+                <div className="space-y-4 w-full max-w-md">
                   <div className="p-4 bg-red-900/50 border border-red-700/50 rounded-lg">
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
@@ -144,25 +144,9 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                 autoPlay
                 playsInline
                 muted
-                className="w-full aspect-video object-cover"
-                onLoadedMetadata={() => setIsVideoReady(true)}
-                onError={(e) => {
-                  console.error('Video error:', e);
-                  setIsVideoReady(false);
-                }}
-                onLoadStart={() => console.log('Video load started')}
-                onCanPlay={() => {
-                  console.log('Video can play event');
-                  setIsVideoReady(true);
-                }}
-                onPlaying={() => console.log('Video is playing')}
+                className="w-full aspect-video object-cover bg-slate-800"
+                style={{ minHeight: '300px' }}
               />
-              
-              {!isVideoReady && (
-                <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
-                  <LoadingSpinner size="lg" text="Starting camera..." />
-                </div>
-              )}
               
               {/* Camera overlay */}
               <div className="absolute inset-0 pointer-events-none">
@@ -171,6 +155,14 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                   <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-emerald-400"></div>
                   <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-emerald-400"></div>
                   <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-emerald-400"></div>
+                </div>
+              </div>
+
+              {/* Status indicator */}
+              <div className="absolute top-4 right-4">
+                <div className="flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium">
+                  <CheckCircle className="h-4 w-4" />
+                  Camera Active
                 </div>
               </div>
             </motion.div>
@@ -186,10 +178,10 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
         >
           <motion.button
             onClick={handleCapture}
-            disabled={isProcessing || !isVideoReady}
+            disabled={isProcessing}
             className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-lg font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            whileHover={!isProcessing && isVideoReady ? { scale: 1.05 } : {}}
-            whileTap={!isProcessing && isVideoReady ? { scale: 0.95 } : {}}
+            whileHover={!isProcessing ? { scale: 1.05 } : {}}
+            whileTap={!isProcessing ? { scale: 0.95 } : {}}
           >
             <Capture className="h-5 w-5" />
             {isProcessing ? 'Processing...' : 'Capture Photo'}
@@ -205,6 +197,14 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             Stop
           </motion.button>
         </motion.div>
+      )}
+
+      {/* Debug information (remove in production) */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-4 p-3 bg-slate-100 rounded-lg text-xs">
+          <strong>Debug Info:</strong>
+          <pre>{JSON.stringify({ cameraState, debugInfo }, null, 2)}</pre>
+        </div>
       )}
     </div>
   );
