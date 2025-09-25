@@ -25,14 +25,28 @@ export const useCamera = () => {
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        // Ensure video plays automatically
-        videoRef.current.play().catch(console.error);
         streamRef.current = stream;
+        
+        // Set camera state to active immediately after setting srcObject
         setCameraState({
           isActive: true,
           isSupported: true,
           error: null,
         });
+        
+        // Ensure video plays automatically
+        try {
+          await videoRef.current.play();
+          console.log('Video started playing successfully');
+        } catch (playError) {
+          console.error('Video play error:', playError);
+          // Try to play again after a short delay
+          setTimeout(() => {
+            if (videoRef.current) {
+              videoRef.current.play().catch(console.error);
+            }
+          }, 100);
+        }
       }
     } catch (error) {
       console.error('Camera access error:', error);

@@ -21,9 +21,23 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      const handleLoadedMetadata = () => setIsVideoReady(true);
+      const handleLoadedMetadata = () => {
+        console.log('Video metadata loaded');
+        setIsVideoReady(true);
+      };
+      
+      const handleCanPlay = () => {
+        console.log('Video can play');
+        setIsVideoReady(true);
+      };
+      
       video.addEventListener('loadedmetadata', handleLoadedMetadata);
-      return () => video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.addEventListener('canplay', handleCanPlay);
+      
+      return () => {
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        video.removeEventListener('canplay', handleCanPlay);
+      };
     }
   }, [videoRef]);
 
@@ -136,6 +150,12 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                   console.error('Video error:', e);
                   setIsVideoReady(false);
                 }}
+                onLoadStart={() => console.log('Video load started')}
+                onCanPlay={() => {
+                  console.log('Video can play event');
+                  setIsVideoReady(true);
+                }}
+                onPlaying={() => console.log('Video is playing')}
               />
               
               {!isVideoReady && (
