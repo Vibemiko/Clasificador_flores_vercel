@@ -86,7 +86,8 @@ git --version   # Should show git version
    The application includes decorative UI assets:
    ```
    public/
-   └── flor.jpg    # Cartoon flower image for UI decoration
+   ├── flor.jpg                              # Cartoon flower image for UI decoration
+   └── files_3571772-1758812923899-flor.jpg  # Additional cartoon flower image for UI decoration
    ```
 
 5. **Start the development server**
