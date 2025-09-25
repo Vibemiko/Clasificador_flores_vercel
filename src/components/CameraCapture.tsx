@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, CameraOff, Aperture as Capture, AlertCircle, RefreshCw, CheckCircle } from 'lucide-react';
+import { Camera, CameraOff, Aperture as Capture, AlertCircle, RefreshCw, CheckCircle, Play } from 'lucide-react';
 import { useCamera } from '../hooks/useCamera';
-import { LoadingSpinner } from './LoadingSpinner';
 
 interface CameraCaptureProps {
   onCapture: (imageUrl: string) => void;
@@ -16,27 +15,47 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
   className = ''
 }) => {
   const { cameraState, videoRef, startCamera, stopCamera, captureFrame } = useCamera();
-  const [debugInfo, setDebugInfo] = useState<any>({});
+  const [videoStatus, setVideoStatus] = useState<{
+    hasStream: boolean;
+    isPlaying: boolean;
+    dimensions: { width: number; height: number };
+  }>({
+    hasStream: false,
+    isPlaying: false,
+    dimensions: { width: 0, height: 0 }
+  });
 
-  // Debug information updater
+  // Monitor video element status
   useEffect(() => {
-    const updateDebugInfo = () => {
-      const video = videoRef.current;
-      if (video) {
-        setDebugInfo({
-          hasStream: !!video.srcObject,
-          readyState: video.readyState,
-          videoWidth: video.videoWidth,
-          videoHeight: video.videoHeight,
-          paused: video.paused,
-          ended: video.ended,
-          currentTime: video.currentTime
-        });
-      }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const updateStatus = () => {
+      setVideoStatus({
+        hasStream: !!video.srcObject,
+        isPlaying: !video.paused && !video.ended && video.readyState > 2,
+        dimensions: { width: video.videoWidth, height: video.videoHeight }
+      });
     };
 
-    const interval = setInterval(updateDebugInfo, 1000);
-    return () => clearInterval(interval);
+    // Add event listeners for video state changes
+    const events = ['loadstart', 'loadedmetadata', 'canplay', 'playing', 'pause', 'ended'];
+    events.forEach(event => {
+      video.addEventListener(event, updateStatus);
+    });
+
+    // Initial status check
+    updateStatus();
+
+    // Periodic status check
+    const interval = setInterval(updateStatus, 1000);
+
+    return () => {
+      events.forEach(event => {
+        video.removeEventListener(event, updateStatus);
+      });
+      clearInterval(interval);
+    };
   }, [videoRef]);
 
   const handleCapture = () => {
@@ -53,6 +72,18 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
     setTimeout(startCamera, 500);
   };
 
+  const forceVideoPlay = async () => {
+    const video = videoRef.current;
+    if (video && video.srcObject) {
+      try {
+        await video.play();
+        console.log('Manual play successful');
+      } catch (error) {
+        console.error('Manual play failed:', error);
+      }
+    }
+  };
+
   if (!cameraState.isSupported) {
     return (
       <div className={`text-center p-8 ${className}`}>
@@ -65,11 +96,14 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
     );
   }
 
+  // Determine if we should show the video or the "camera off" state
+  const showVideo = cameraState.isActive && videoStatus.hasStream;
+
   return (
     <div className={`space-y-6 ${className}`}>
       <div className="relative bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
         <AnimatePresence mode="wait">
-          {!cameraState.isActive ? (
+          {!showVideo ? (
             <motion.div
               key="camera-off"
               initial={{ opacity: 0 }}
@@ -79,10 +113,13 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             >
               <CameraOff className="h-20 w-20 text-slate-400 mb-6" />
               <h3 className="text-xl font-semibold text-white mb-2">
-                Camera is off
+                {cameraState.isActive ? 'Camera starting...' : 'Camera is off'}
               </h3>
               <p className="text-slate-300 mb-6">
-                Start your camera to capture flower images for identification
+                {cameraState.isActive 
+                  ? 'Please wait while we initialize your camera'
+                  : 'Start your camera to capture flower images for identification'
+                }
               </p>
               
               {cameraState.error ? (
@@ -118,6 +155,11 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                       Start Camera
                     </motion.button>
                   </div>
+                </div>
+              ) : cameraState.isActive ? (
+                <div className="flex items-center gap-3 text-amber-300">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-300"></div>
+                  <span>Initializing camera...</span>
                 </div>
               ) : (
                 <motion.button
@@ -165,12 +207,27 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
                   Camera Active
                 </div>
               </div>
+
+              {/* Manual play button if video isn't playing */}
+              {!videoStatus.isPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.button
+                    onClick={forceVideoPlay}
+                    className="flex items-center gap-2 px-6 py-3 bg-white/90 hover:bg-white text-slate-800 rounded-lg font-medium shadow-lg"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Play className="h-5 w-5" />
+                    Start Video
+                  </motion.button>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {cameraState.isActive && (
+      {showVideo && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -178,10 +235,10 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
         >
           <motion.button
             onClick={handleCapture}
-            disabled={isProcessing}
+            disabled={isProcessing || !videoStatus.isPlaying}
             className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-lg font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            whileHover={!isProcessing ? { scale: 1.05 } : {}}
-            whileTap={!isProcessing ? { scale: 0.95 } : {}}
+            whileHover={!isProcessing && videoStatus.isPlaying ? { scale: 1.05 } : {}}
+            whileTap={!isProcessing && videoStatus.isPlaying ? { scale: 0.95 } : {}}
           >
             <Capture className="h-5 w-5" />
             {isProcessing ? 'Processing...' : 'Capture Photo'}
@@ -199,11 +256,19 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
         </motion.div>
       )}
 
-      {/* Debug information (remove in production) */}
+      {/* Debug information */}
       {process.env.NODE_ENV === 'development' && (
         <div className="mt-4 p-3 bg-slate-100 rounded-lg text-xs">
           <strong>Debug Info:</strong>
-          <pre>{JSON.stringify({ cameraState, debugInfo }, null, 2)}</pre>
+          <pre>{JSON.stringify({ 
+            cameraState, 
+            videoStatus,
+            videoElement: {
+              srcObject: !!videoRef.current?.srcObject,
+              readyState: videoRef.current?.readyState,
+              paused: videoRef.current?.paused
+            }
+          }, null, 2)}</pre>
         </div>
       )}
     </div>

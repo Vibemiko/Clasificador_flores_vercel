@@ -10,44 +10,35 @@ export const useCamera = () => {
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const stateCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Direct DOM state checker - bypasses React state issues
-  const checkVideoState = useCallback(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const hasStream = video.srcObject !== null;
-    const isPlaying = !video.paused && !video.ended && video.readyState > 2;
-    const hasVideoTrack = streamRef.current?.getVideoTracks().some(track => track.readyState === 'live') || false;
-
-    console.log('Video state check:', {
-      hasStream,
-      isPlaying,
-      hasVideoTrack,
-      readyState: video.readyState,
-      videoWidth: video.videoWidth,
-      videoHeight: video.videoHeight
-    });
-
-    // Update state based on actual DOM state
-    setCameraState(prev => ({
-      ...prev,
-      isActive: hasStream && hasVideoTrack && (isPlaying || video.readyState >= 3)
-    }));
-  }, []);
+  const isStartingRef = useRef(false);
 
   const startCamera = useCallback(async () => {
+    if (isStartingRef.current) {
+      console.log('Camera start already in progress');
+      return;
+    }
+
+    isStartingRef.current = true;
+    console.log('🎥 Starting camera with direct DOM approach...');
+    
     try {
-      console.log('Starting camera...');
       setCameraState(prev => ({ ...prev, error: null }));
       
-      // Stop any existing stream first
+      // Stop any existing stream
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
       }
 
-      // Request camera access with specific constraints
+      // Get video element
+      const video = videoRef.current;
+      if (!video) {
+        throw new Error('Video element not available');
+      }
+
+      console.log('📹 Requesting camera access...');
+      
+      // Request camera with optimal settings
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { 
           facingMode: 'environment',
@@ -56,97 +47,60 @@ export const useCamera = () => {
         }
       });
       
-      console.log('Camera stream obtained:', stream.getVideoTracks().length, 'video tracks');
+      console.log('✅ Camera stream obtained:', {
+        tracks: stream.getVideoTracks().length,
+        settings: stream.getVideoTracks()[0]?.getSettings()
+      });
+      
       streamRef.current = stream;
-      
-      const video = videoRef.current;
-      if (!video) {
-        throw new Error('Video element not found');
-      }
 
-      // Direct DOM manipulation - set srcObject immediately
+      // DIRECT DOM MANIPULATION - Set properties immediately
       video.srcObject = stream;
-      
-      // Force video properties
       video.muted = true;
       video.playsInline = true;
       video.autoplay = true;
+      
+      // Force immediate state update - don't wait for events
+      setCameraState({
+        isActive: true,
+        isSupported: true,
+        error: null,
+      });
 
-      // Multiple attempts to start video playback
-      const attemptPlay = async (attempt = 1, maxAttempts = 5) => {
+      console.log('🎬 Video element configured, attempting play...');
+
+      // Attempt to play with aggressive retry
+      let playAttempts = 0;
+      const maxAttempts = 5;
+      
+      const attemptPlay = async (): Promise<void> => {
+        playAttempts++;
+        console.log(`▶️ Play attempt ${playAttempts}/${maxAttempts}`);
+        
         try {
-          console.log(`Play attempt ${attempt}/${maxAttempts}`);
           await video.play();
-          console.log('Video playing successfully');
-          
-          // Start state checking interval
-          if (stateCheckIntervalRef.current) {
-            clearInterval(stateCheckIntervalRef.current);
-          }
-          stateCheckIntervalRef.current = setInterval(checkVideoState, 500);
-          
+          console.log('🎉 Video playing successfully!');
         } catch (playError) {
-          console.error(`Play attempt ${attempt} failed:`, playError);
+          console.warn(`❌ Play attempt ${playAttempts} failed:`, playError);
           
-          if (attempt < maxAttempts) {
-            // Wait and retry
-            setTimeout(() => attemptPlay(attempt + 1, maxAttempts), 200 * attempt);
+          if (playAttempts < maxAttempts) {
+            // Wait progressively longer between attempts
+            await new Promise(resolve => setTimeout(resolve, 100 * playAttempts));
+            return attemptPlay();
           } else {
-            // Final attempt failed - but stream might still work
-            console.warn('All play attempts failed, but stream may still be active');
-            checkVideoState(); // Check state anyway
+            console.warn('⚠️ All play attempts failed, but stream should still be active');
+            // Don't throw error - the stream is still valid even if play() fails
           }
         }
       };
 
-      // Wait for metadata and then attempt play
-      const onLoadedMetadata = () => {
-        console.log('Video metadata loaded:', {
-          videoWidth: video.videoWidth,
-          videoHeight: video.videoHeight,
-          duration: video.duration
-        });
-        attemptPlay();
-      };
+      // Start play attempts
+      await attemptPlay();
 
-      const onCanPlay = () => {
-        console.log('Video can play');
-        checkVideoState();
-      };
-
-      const onError = (e: Event) => {
-        console.error('Video error:', e);
-        setCameraState(prev => ({ 
-          ...prev, 
-          isActive: false, 
-          error: 'Video playback error' 
-        }));
-      };
-
-      // Add event listeners
-      video.addEventListener('loadedmetadata', onLoadedMetadata, { once: true });
-      video.addEventListener('canplay', onCanPlay);
-      video.addEventListener('error', onError);
-      video.addEventListener('playing', () => {
-        console.log('Video playing event fired');
-        checkVideoState();
-      });
-
-      // Cleanup function for event listeners
-      const cleanup = () => {
-        video.removeEventListener('loadedmetadata', onLoadedMetadata);
-        video.removeEventListener('canplay', onCanPlay);
-        video.removeEventListener('error', onError);
-      };
-
-      // Store cleanup function
-      (video as any)._cameraCleanup = cleanup;
-
-      // Immediate state check after a short delay
-      setTimeout(checkVideoState, 1000);
+      console.log('✨ Camera setup complete');
       
     } catch (error) {
-      console.error('Camera access error:', error);
+      console.error('💥 Camera setup failed:', error);
       
       let errorMessage = 'Camera access failed';
       
@@ -167,22 +121,18 @@ export const useCamera = () => {
         isSupported: true,
         error: errorMessage,
       });
+    } finally {
+      isStartingRef.current = false;
     }
-  }, [checkVideoState]);
+  }, []);
 
   const stopCamera = useCallback(() => {
-    console.log('Stopping camera...');
-    
-    // Clear state check interval
-    if (stateCheckIntervalRef.current) {
-      clearInterval(stateCheckIntervalRef.current);
-      stateCheckIntervalRef.current = null;
-    }
+    console.log('🛑 Stopping camera...');
     
     // Stop all tracks
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => {
-        console.log('Stopping track:', track.kind, track.label);
+        console.log('🔇 Stopping track:', track.kind, track.label);
         track.stop();
       });
       streamRef.current = null;
@@ -191,50 +141,47 @@ export const useCamera = () => {
     // Clean up video element
     const video = videoRef.current;
     if (video) {
-      // Call cleanup function if it exists
-      if ((video as any)._cameraCleanup) {
-        (video as any)._cameraCleanup();
-        delete (video as any)._cameraCleanup;
-      }
-      
       video.srcObject = null;
-      video.load(); // Reset video element
+      video.load();
     }
     
     setCameraState(prev => ({ ...prev, isActive: false }));
+    console.log('✅ Camera stopped');
   }, []);
 
   const captureFrame = useCallback((): string | null => {
     const video = videoRef.current;
-    if (!video || !cameraState.isActive || video.readyState < 2) {
-      console.warn('Cannot capture: video not ready', {
-        hasVideo: !!video,
-        isActive: cameraState.isActive,
-        readyState: video?.readyState
-      });
+    if (!video || !streamRef.current) {
+      console.warn('❌ Cannot capture: video or stream not available');
+      return null;
+    }
+    
+    // Check if video has dimensions (indicates it's actually playing)
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+      console.warn('❌ Cannot capture: video has no dimensions');
       return null;
     }
     
     try {
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
       
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        console.error('Cannot get canvas context');
+        console.error('❌ Cannot get canvas context');
         return null;
       }
       
       ctx.drawImage(video, 0, 0);
       const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-      console.log('Frame captured successfully');
+      console.log('📸 Frame captured successfully');
       return dataUrl;
     } catch (error) {
-      console.error('Capture error:', error);
+      console.error('💥 Capture error:', error);
       return null;
     }
-  }, [cameraState.isActive]);
+  }, []);
 
   useEffect(() => {
     const checkSupport = () => {
@@ -253,10 +200,7 @@ export const useCamera = () => {
 
   useEffect(() => {
     return () => {
-      // Cleanup on unmount
-      if (stateCheckIntervalRef.current) {
-        clearInterval(stateCheckIntervalRef.current);
-      }
+      console.log('🧹 Cleaning up camera hook');
       stopCamera();
     };
   }, [stopCamera]);
