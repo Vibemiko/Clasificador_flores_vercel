@@ -158,6 +158,9 @@ npm run dev -- --host
 # Start development server with network access (accessible from other devices)
 npm run dev -- --host
 
+# Start development server with network access (accessible from other devices)
+npm run dev -- --host
+
 # Build for production
 npm run build
 
