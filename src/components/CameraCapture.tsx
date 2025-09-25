@@ -193,6 +193,12 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             </motion.div>
           ) : (
             <motion.div
+              key="camera-active"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0"
+            >
               {/* Camera overlay */}
               <div className="absolute inset-0 pointer-events-none z-10">
                 <div className="absolute inset-4 border-2 border-white/20 rounded-lg">
