@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Flower, Clock, CheckCircle2, Share2, Download } from 'lucide-react';
+import { Flower, Clock, CircleCheck as CheckCircle2, Share2, Download } from 'lucide-react';
 import { ProgressBar } from './ProgressBar';
 import type { PredictionResult as PredictionResultType } from '../types';
 
