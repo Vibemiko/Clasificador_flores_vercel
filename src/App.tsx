@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flower2, Upload, Camera, History, Zap, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Flower2, Upload, Camera, History, Zap, CircleAlert as AlertCircle, CircleCheck as CheckCircle2 } from 'lucide-react';
 import { ImageUploader } from './components/ImageUploader';
 import { CameraCapture } from './components/CameraCapture';
 import { PredictionResult } from './components/PredictionResult';
