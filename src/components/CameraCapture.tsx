@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, CameraOff, Aperture as Capture, AlertCircle, RefreshCw, CheckCircle, Play } from 'lucide-react';
+import { Camera, CameraOff, Aperture as Capture, CircleAlert as AlertCircle, RefreshCw, CircleCheck as CheckCircle, Play } from 'lucide-react';
 import { useCamera } from '../hooks/useCamera';
 
 interface CameraCaptureProps {

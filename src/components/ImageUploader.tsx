@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { Upload, Image as ImageIcon, CircleAlert as AlertCircle } from 'lucide-react';
 
 interface ImageUploaderProps {
   onImageSelect: (file: File, imageUrl: string) => void;
