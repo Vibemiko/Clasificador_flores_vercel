@@ -214,6 +214,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Version Log
 
+### v1.2.2 - 2025-01-27
+- **Changes:** Fixed first image prediction failure and implemented Spanish flower names
+- **Features:** Enhanced model warm-up process with 3-stage initialization, Spanish classification output
+- **Usage:** First image upload now works reliably, returns "Margarita" and "Diente de Leon" in Spanish
+- **Performance:** Improved model loading stability with auto-initialization and proper warm-up sequence
+- **Breaking Changes:** Flower names now returned in Spanish instead of English
+
 ### v1.2.1 - 2025-01-27
 - **Changes:** Fixed critical camera display issue where video stream wasn't showing despite camera access
 - **Features:** Improved camera initialization with direct DOM manipulation approach
