@@ -70,7 +70,7 @@ export const useModel = () => {
 
       const confidence = predictionData[0];
       
-      if (confidence < 0.5) {
+      if (confidence < 0.3) {
         return {
           className: 'Margarita',
           confidence: (1 - confidence) * 100
