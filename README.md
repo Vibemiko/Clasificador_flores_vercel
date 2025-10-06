@@ -185,6 +185,160 @@ La aplicación se ejecuta completamente en el navegador sin requisitos de backen
 - **Uso de Memoria**: ~150MB durante uso activo
 - **Precisión**: 85-95% en conjunto de datos de prueba
 
+## ⚙️ Configuración de Predicciones del Modelo
+
+### ¿Qué es el umbral de decisión y el valor de confianza?
+
+**Umbral de decisión (Decision Threshold):** Es el valor que determina en qué punto el modelo clasifica una imagen como una categoría u otra. En este proyecto, el modelo distingue entre "Margarita" y "Diente de León".
+
+**Valor de confianza (Confidence):** Es el porcentaje (0-100%) que indica qué tan seguro está el modelo de su predicción. Un valor más alto significa mayor certeza.
+
+---
+
+### Ubicación en el código
+
+El umbral de decisión se encuentra en el archivo `src/hooks/useModel.ts`, específicamente en las **líneas 75-85**:
+
+```typescript
+const confidence = predictionData[0];
+
+if (confidence < 0.3) {  // 👈 UMBRAL DE DECISIÓN
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+} else {
+  return {
+    className: 'Diente de Leon',
+    confidence: confidence * 100
+  };
+}
+```
+
+---
+
+### Cómo funciona el sistema actual
+
+1. El modelo devuelve un valor entre **0.0 y 1.0** en `predictionData[0]`
+2. Si el valor es **< 0.3** → clasifica como **"Margarita"**
+3. Si el valor es **≥ 0.3** → clasifica como **"Diente de León"**
+4. La confianza se calcula multiplicando el valor por 100
+
+---
+
+### Ejemplos de modificación del umbral
+
+#### **Ejemplo 1: Hacer el modelo más estricto (umbral 0.5)**
+
+Para que el modelo requiera más certeza antes de clasificar como "Diente de León":
+
+**ANTES:**
+```typescript
+if (confidence < 0.3) {
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+}
+```
+
+**DESPUÉS:**
+```typescript
+if (confidence < 0.5) {  // 👈 Cambiado de 0.3 a 0.5
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+}
+```
+
+---
+
+#### **Ejemplo 2: Hacer el modelo más sensible (umbral 0.2)**
+
+Para que clasifique más fácilmente como "Diente de León":
+
+```typescript
+if (confidence < 0.2) {  // 👈 Cambiado de 0.3 a 0.2
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+}
+```
+
+---
+
+#### **Ejemplo 3: Configuración mediante constante (Recomendado)**
+
+Para facilitar ajustes futuros, define el umbral como constante al inicio del archivo:
+
+```typescript
+const MODEL_URL = '/models/model.json';
+const MODEL_INPUT_SIZE = 192;
+const DECISION_THRESHOLD = 0.3;  // 👈 Nueva constante
+
+// ...más adelante en el código predict():
+
+if (confidence < DECISION_THRESHOLD) {
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+}
+```
+
+---
+
+### Impacto de cambiar el umbral
+
+| Umbral | Efecto | Cuándo usarlo |
+|--------|--------|---------------|
+| **0.2** | Clasifica más fácilmente como "Diente de León" | Cuando hay muchos falsos negativos (margaritas clasificadas como dientes de león) |
+| **0.3** | Balance predeterminado | Configuración actual del proyecto |
+| **0.5** | Requiere más certeza para "Diente de León" | Cuando hay muchos falsos positivos (dientes de león clasificados como margaritas) |
+| **0.7** | Muy conservador | Para aplicaciones críticas donde la precisión es fundamental |
+
+---
+
+### ⚠️ Consideraciones importantes
+
+1. **Balance Precisión vs Recall:** Un umbral más alto reduce falsos positivos pero aumenta falsos negativos, y viceversa.
+
+2. **Testeo necesario:** Después de modificar el umbral, probá con múltiples imágenes de ambas categorías para validar el comportamiento.
+
+3. **Valores extremos:**
+   - Umbral muy bajo (< 0.1): El modelo clasificará casi todo como "Diente de León"
+   - Umbral muy alto (> 0.8): El modelo clasificará casi todo como "Margarita"
+
+4. **Cálculo de confianza:** El valor de confianza se invierte para "Margarita" usando `(1 - confidence) * 100` porque el modelo está entrenado para detectar "Diente de León" como clase positiva.
+
+---
+
+### Código completo de modificación recomendada
+
+```typescript
+// Al inicio del archivo (línea ~8)
+const MODEL_URL = '/models/model.json';
+const MODEL_INPUT_SIZE = 192;
+const DECISION_THRESHOLD = 0.3;  // Ajustá este valor según necesidad
+
+// En la función predict (línea ~75)
+const confidence = predictionData[0];
+
+if (confidence < DECISION_THRESHOLD) {
+  return {
+    className: 'Margarita',
+    confidence: (1 - confidence) * 100
+  };
+} else {
+  return {
+    className: 'Diente de Leon',
+    confidence: confidence * 100
+  };
+}
+```
+
 ## 🤝 Contribuir
 
 1. Hacé fork del repositorio
