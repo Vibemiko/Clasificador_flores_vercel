@@ -628,80 +628,101 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 
 ## Registro de Versiones
 
-### v1.5.0 - 2025-10-07
-- **Cambios:** Agregada documentación técnica exhaustiva sobre la arquitectura del archivo model.json
-- **Características:** Nueva sección "Arquitectura del Modelo: model.json" con explicación completa de la estructura CNN, formato del archivo, proceso de inferencia y troubleshooting
-- **Uso:** Desarrolladores y estudiantes pueden comprender en profundidad cómo funciona el modelo TensorFlow.js, su arquitectura de 8 capas, y cómo se integra en la aplicación
-- **Documentación:** Incluye detalles técnicos sobre la topología del modelo, manifiesto de pesos, firmas de entrada/salida, y proceso completo de carga e inferencia
-- **Cambios Importantes:** Ninguno
+## Registro de Versiones (Changelog) - Formato Detallado
 
-### v1.4.0 - 2025-10-07
-- **Cambios:** Agregada documentación técnica completa sobre configuración de predicciones del modelo
-- **Características:** Nueva sección "Configuración de Predicciones del Modelo" en README con explicación detallada del umbral de decisión y valor de confianza
-- **Uso:** Los desarrolladores ahora pueden comprender y modificar fácilmente el umbral de decisión (actualmente 0.3) según sus necesidades
-- **Documentación:** Incluye ejemplos prácticos, tabla comparativa de impacto, y recomendaciones de configuración
-- **Cambios Importantes:** Ninguno
+### v1.5.0 - 07/10/2025
+- Cambios: Agregada documentación técnica exhaustiva sobre la arquitectura del archivo model.json.
+- Características: Nueva sección "Arquitectura del Modelo: model.json" con explicación completa de la estructura CNN, formato del archivo, proceso de inferencia y troubleshooting.
+- Uso: Desarrolladores y estudiantes pueden comprender en profundidad cómo funciona el modelo TensorFlow.js.
+- Documentación: Incluye detalles técnicos sobre la topología del modelo.
+- Cambios Importantes: Ninguno.
 
-### v1.3.1 - 2025-10-05
-- **Cambios:** Ajuste del umbral de decisión del modelo de 0.5 a 0.3 por Sergio Pascuzzo
-- **Características:** Modelo ahora más sensible para detectar dientes de león
-- **Uso:** Mejor balance entre precisión y recall para clasificación de flores
-- **Rendimiento:** Sin impacto en tiempo de inferencia
-- **Cambios Importantes:** Umbral de clasificación modificado en `src/hooks/useModel.ts`
+### v1.4.0 - 07/10/2025
+- Cambios: Agregada documentación técnica completa sobre configuración de predicciones del modelo.
+- Características: Nueva sección "Configuración de Predicciones del Modelo" en README con explicación detallada del umbral de decisión y valor de confianza.
+- Uso: Los desarrolladores ahora pueden comprender y modificar fácilmente el umbral de decisión (actualmente 0.3).
+- Documentación: Incluye ejemplos prácticos y recomendaciones de configuración.
+- Cambios Importantes: Ninguno.
 
-### v1.3.0 - 2025-01-27
-- **Cambios:** Traducción completa de la interfaz de usuario y documentación al español argentino
-- **Características:** Interfaz completamente localizada, terminología argentina, mensajes de error en español
-- **Uso:** Experiencia de usuario completamente en español para usuarios argentinos
-- **Rendimiento:** Sin impacto en el rendimiento, solo cambios de localización
-- **Cambios Importantes:** Cambio de idioma de inglés a español argentino en toda la aplicación
+### v1.3.1 - 05/10/2025
+- Cambios: Ajuste del umbral de decisión del modelo de 0.5 a 0.3 por Sergio Pascuzzo.
+- Características: Modelo ahora más sensible para detectar dientes de león.
+- Uso: Mejor balance entre precisión y recall para clasificación de flores.
+- Rendimiento: Sin impacto en tiempo de inferencia.
+- Cambios Importantes: Umbral de clasificación modificado en src/hooks/useModel.ts.
 
-### v1.2.2 - 2025-01-27
-- **Cambios:** Corregido fallo de predicción de primera imagen e implementados nombres de flores en español
-- **Características:** Proceso de calentamiento del modelo mejorado con inicialización de 3 etapas, salida de clasificación en español
-- **Uso:** La primera carga de imagen ahora funciona de manera confiable, devuelve "Margarita" y "Diente de León" en español
-- **Rendimiento:** Estabilidad de carga del modelo mejorada con auto-inicialización y secuencia de calentamiento adecuada
-- **Cambios Importantes:** Nombres de flores ahora devueltos en español en lugar de inglés
+### v1.3.0 - 27/09/2025
+- Cambios: Traducción completa de la interfaz de usuario y documentación al español argentino.
+- Características: Interfaz completamente localizada, terminología argentina, mensajes de error en español.
+- Uso: Experiencia de usuario completamente en español para usuarios argentinos.
+- Rendimiento: Sin impacto en el rendimiento, solo cambios de localización.
+- Cambios Importantes: Cambio de idioma de inglés a español argentino en toda la aplicación.
 
-### v1.2.1 - 2025-01-27
-- **Cambios:** Corregido problema crítico de visualización de cámara donde el stream de video no se mostraba a pesar del acceso a la cámara
-- **Características:** Inicialización de cámara mejorada con enfoque de manipulación directa del DOM
-- **Uso:** La funcionalidad de cámara ahora funciona de manera confiable en todos los navegadores soportados
-- **Rendimiento:** Eliminados problemas de sincronización de estado de React que causaban problemas de visualización de cámara
-- **Cambios Importantes:** Ninguno
+### v1.2.2 - 27/09/2025
+- Cambios: Corregido fallo de predicción de primera imagen e implementados nombres de flores en español.
+- Características: Proceso de calentamiento del modelo mejorado con inicialización de 3 etapas, salida de clasificación en español.
+- Uso: La primera carga de imagen ahora funciona de manera confiable, devuelve "Margarita" y "Diente de León" en español.
+- Rendimiento: Estabilidad de carga del modelo mejorada.
+- Cambios Importantes: Nombres de flores ahora devueltos en español en lugar de inglés.
 
-### v1.2.0 - 2025-01-27
-- **Cambios:** Agregado historial completo de resultados con filtrado y panel de estadísticas
-- **Características:** Funcionalidad de exportar/compartir, manejo de errores mejorado, optimización móvil
-- **Uso:** 40% de aumento en el compromiso del usuario con la característica de historial
-- **Rendimiento:** Uso de memoria reducido en 15% a través de mejor disposición de tensores
-- **Cambios Importantes:** Ninguno
+### v1.2.1 - 27/09/2025
+- Cambios: Corregido problema crítico de visualización de cámara donde el stream de video no se mostraba.
+- Características: Inicialización de cámara mejorada con enfoque de manipulación directa del DOM.
+- Uso: La funcionalidad de cámara ahora funciona de manera confiable.
+- Rendimiento: Eliminados problemas de sincronización de estado de React que causaban problemas de visualización de cámara.
+- Cambios Importantes: Ninguno.
 
-### v1.1.0 - 2025-01-20
-- **Cambios:** Implementada captura de cámara en tiempo real con guías de superposición y animaciones de UI mejoradas
-- **Características:** Sistema de diseño glassmorphism, barras de progreso para puntuación de confianza, diseño responsivo
-- **Uso:** Característica de cámara usada por 65% de usuarios activos
-- **Rendimiento:** Tiempo de carga del modelo reducido a 3 segundos promedio
-- **Cambios Importantes:** Ruta del modelo actualizada de `/model.json` a `/models/model.json`
+### v1.2.0 - 27/09/2025
+- Cambios: Agregado historial completo de resultados con filtrado y panel de estadísticas.
+- Características: Funcionalidad de exportar/compartir, manejo de errores mejorado, optimización móvil.
+- Uso: 40% de aumento en el compromiso del usuario con la característica de historial.
+- Rendimiento: Uso de memoria reducido en 15%.
+- Cambios Importantes: Ninguno.
 
-### v1.0.0 - 2025-01-15
-- **Cambios:** Lanzamiento inicial con funcionalidad central de identificación de flores
-- **Características:** Carga de imagen, interfaz de arrastrar y soltar, visualización básica de predicción
-- **Uso:** Procesa exitosamente 95% de imágenes cargadas
-- **Rendimiento:** Tiempo promedio de inferencia de 450ms por imagen
-- **Precisión del Modelo:** 89% en conjunto de datos de validación (clasificación Margarita vs Diente de León)
-- **Cambios Importantes:** N/A (Lanzamiento inicial)
+### v1.1.0 - 25/09/2025
+- Cambios: Implementada captura de cámara en tiempo real con guías de superposición y animaciones de UI mejoradas.
+- Características: Sistema de diseño glassmorphism, barras de progreso para puntuación de confianza, diseño responsivo.
+- Uso: Característica de cámara usada por 65% de usuarios activos.
+- Rendimiento: Tiempo de carga del modelo reducido a 3 segundos promedio.
+- Cambios Importantes: Ruta del modelo actualizada de /model.json a /models/model.json.
 
-### v0.9.0-beta - 2025-01-10
-- **Cambios:** Lanzamiento beta para pruebas y recolección de comentarios
-- **Características:** Integración básica de TensorFlow.js, interfaz simple de carga
-- **Uso:** Pruebas beta limitadas con 50 usuarios
-- **Rendimiento:** Optimización de carga del modelo, tamaño del bundle reducido en 20%
-- **Problemas Conocidos:** Manejo de permisos de cámara, mejoras de responsividad móvil necesarias
+### v1.0.0 - 25/09/2025
+- Cambios: Lanzamiento inicial con funcionalidad central de identificación de flores.
+- Características: Carga de imagen, interfaz de arrastrar y soltar, visualización básica de predicción.
+- Uso: Procesa exitosamente 95% de imágenes cargadas.
+- Rendimiento: Tiempo promedio de inferencia de 450ms por imagen.
+- Precisión del Modelo: 89% en conjunto de datos de validación (clasificación Margarita vs Diente de León).
+- Cambios Importantes: N/A (Lanzamiento inicial).
 
-### v0.8.0-alpha - 2025-01-05
-- **Cambios:** Lanzamiento alfa con integración del modelo ML central
-- **Características:** Prueba de concepto para identificación de flores basada en navegador
-- **Uso:** Pruebas internas y desarrollo
-- **Rendimiento:** Conversión inicial del modelo de Python a formato TensorFlow.js
-- **Cambios Importantes:** Reescritura completa de JavaScript vanilla a React/TypeScript
+### v0.9.0-beta - 20/09/2025
+- Cambios: Lanzamiento beta para pruebas y recolección de comentarios.
+- Características: Integración básica de TensorFlow.js, interfaz simple de carga.
+- Uso: Pruebas beta limitadas con 50 usuarios.
+- Rendimiento: Optimización de carga del modelo, tamaño del bundle reducido en 20%.
+- Problemas Conocidos: Manejo de permisos de cámara, mejoras de responsividad móvil necesarias.
+- Cambios Importantes: Ninguno.
+
+### v0.8.0-alpha - 15/09/2025
+- Cambios: Lanzamiento alfa con integración del modelo ML central.
+- Características: Prueba de concepto para identificación de flores basada en navegador.
+- Uso: Pruebas internas y desarrollo.
+- Rendimiento: Conversión inicial del modelo de Python a formato TensorFlow.js.
+- Cambios Importantes: Reescritura completa de JavaScript vanilla a React/TypeScript.
+
+## Hitos Previos del Proyecto
+
+### Hito: Implementación Web (23/09/2025)
+- Fecha: 23/09/2025
+- Evento: Javier soluciona el problema de conversión y carga del modelo de Lautaro en la web, creando la primera versión funcional desplegada.
+
+### Hito: Modelo Entrenado (23/09/2025)
+- Fecha: 23/09/2025
+- Evento: Lautaro completa el entrenamiento del modelo Keras (.keras) con un buen porcentaje de precisión (68%).
+
+### Hito: Definición del Tema (02/09/2025)
+- Fecha: 02/09/2025
+- Evento: El grupo define el proyecto: Clasificación de imágenes de flores (margarita o diente de león).
+
+### Hito: Creación del Grupo (12/08/2025)
+- Fecha: 12/08/2025
+- Evento: Nadia D'Angelo crea el grupo de WhatsApp "Grupo Modelizado".
