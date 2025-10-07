@@ -433,6 +433,12 @@ La aplicación se ejecuta completamente en el navegador sin requisitos de backen
 
 ## ⚙️ Configuración de Predicciones del Modelo
 
+### Relación entre model.json y useModel.ts
+
+El archivo `model.json` contiene la red neuronal entrenada que genera probabilidades (valores entre 0.0 y 1.0), mientras que el valor **0.3** en `useModel.ts` es el umbral de decisión manual que convierte esa probabilidad en una clasificación binaria. Cuando el modelo devuelve una probabilidad menor a 0.3, se clasifica como "Margarita"; cuando es 0.3 o mayor, se clasifica como "Diente de León". En resumen: `model.json` predice, `useModel.ts` decide.
+
+---
+
 ### ¿Qué es el umbral de decisión y el valor de confianza?
 
 **Umbral de decisión (Decision Threshold):** Es el valor que determina en qué punto el modelo clasifica una imagen como una categoría u otra. En este proyecto, el modelo distingue entre "Margarita" y "Diente de León".
