@@ -628,8 +628,6 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 
 ## Registro de Versiones
 
-## Registro de Versiones (Changelog) - Formato Detallado
-
 ### v1.5.0 - 07/10/2025
 - Cambios: Agregada documentación técnica exhaustiva sobre la arquitectura del archivo model.json.
 - Características: Nueva sección "Arquitectura del Modelo: model.json" con explicación completa de la estructura CNN, formato del archivo, proceso de inferencia y troubleshooting.
