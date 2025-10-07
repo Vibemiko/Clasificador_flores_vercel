@@ -376,6 +376,20 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 
 ## Registro de Versiones
 
+### v1.4.0 - 2025-10-07
+- **Cambios:** Agregada documentación técnica completa sobre configuración de predicciones del modelo
+- **Características:** Nueva sección "Configuración de Predicciones del Modelo" en README con explicación detallada del umbral de decisión y valor de confianza
+- **Uso:** Los desarrolladores ahora pueden comprender y modificar fácilmente el umbral de decisión (actualmente 0.3) según sus necesidades
+- **Documentación:** Incluye ejemplos prácticos, tabla comparativa de impacto, y recomendaciones de configuración
+- **Cambios Importantes:** Ninguno
+
+### v1.3.1 - 2025-10-05
+- **Cambios:** Ajuste del umbral de decisión del modelo de 0.5 a 0.3 por Sergio Pascuzzo
+- **Características:** Modelo ahora más sensible para detectar dientes de león
+- **Uso:** Mejor balance entre precisión y recall para clasificación de flores
+- **Rendimiento:** Sin impacto en tiempo de inferencia
+- **Cambios Importantes:** Umbral de clasificación modificado en `src/hooks/useModel.ts`
+
 ### v1.3.0 - 2025-01-27
 - **Cambios:** Traducción completa de la interfaz de usuario y documentación al español argentino
 - **Características:** Interfaz completamente localizada, terminología argentina, mensajes de error en español
@@ -432,7 +446,3 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - **Uso:** Pruebas internas y desarrollo
 - **Rendimiento:** Conversión inicial del modelo de Python a formato TensorFlow.js
 - **Cambios Importantes:** Reescritura completa de JavaScript vanilla a React/TypeScript
-
----
-
-*Última actualización: 27 de enero de 2025*
