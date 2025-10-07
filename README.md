@@ -145,6 +145,252 @@ src/
 - **Tailwind CSS 3.4.1**: Estilizado utility-first
 - **React Dropzone 14.3.8**: Manejo de carga de archivos
 
+## 📦 Arquitectura del Modelo: model.json
+
+### ¿Qué es model.json?
+
+`model.json` es el archivo de configuración central que define la arquitectura de la red neuronal convolucional (CNN) utilizada para clasificar flores. Este archivo es generado por TensorFlow y convertido a formato TensorFlow.js, permitiendo que el modelo de aprendizaje automático se ejecute completamente en el navegador sin necesidad de un servidor backend.
+
+### Ubicación del Archivo
+
+```
+public/models/model.json
+```
+
+El archivo debe ubicarse en el directorio `public/` para que sea accesible mediante HTTP cuando la aplicación se ejecute en el navegador.
+
+### Estructura Técnica del Modelo
+
+El modelo implementa una arquitectura CNN profunda con las siguientes características:
+
+#### **Capas de la Red Neuronal**
+
+1. **Capa de Entrada**
+   - Dimensiones: `192 × 192 × 3` (altura × ancho × canales RGB)
+   - Formato: Tensor de punto flotante normalizado (valores 0.0 - 1.0)
+
+2. **Bloque Convolucional 1**
+   - Convolución 2D: 32 filtros de 3×3
+   - Batch Normalization
+   - Activación: ReLU
+   - Max Pooling: 2×2
+
+3. **Bloque Convolucional 2**
+   - Convolución 2D: 64 filtros de 3×3
+   - Batch Normalization
+   - Activación: ReLU
+   - Max Pooling: 2×2
+
+4. **Bloque Convolucional 3**
+   - Convolución 2D: 128 filtros de 3×3
+   - Batch Normalization
+   - Activación: ReLU
+   - Max Pooling: 2×2
+
+5. **Bloque Convolucional 4**
+   - Convolución 2D: 256 filtros de 3×3
+   - Batch Normalization
+   - Activación: ReLU
+   - Max Pooling: 2×2
+
+6. **Capa de Aplanamiento (Flatten)**
+   - Convierte tensor 3D en vector 1D: 36,864 valores
+
+7. **Capas Densas (Fully Connected)**
+   - Dense 1: 36,864 → 256 neuronas (ReLU)
+   - Dense 2: 256 → 1 neurona (Sigmoid)
+
+8. **Capa de Salida**
+   - Dimensión: 1 valor
+   - Rango: 0.0 - 1.0 (probabilidad)
+   - Interpretación:
+     - `< 0.3` → Margarita
+     - `≥ 0.3` → Diente de León
+
+### Contenido del Archivo model.json
+
+El archivo `model.json` contiene tres secciones principales:
+
+#### **1. Metadatos del Modelo**
+
+```json
+{
+  "format": "graph-model",
+  "generatedBy": "2.19.0",
+  "convertedBy": "TensorFlow.js Converter v4.22.0"
+}
+```
+
+- **format**: Tipo de modelo TensorFlow.js (graph-model vs layers-model)
+- **generatedBy**: Versión de TensorFlow que generó el modelo original
+- **convertedBy**: Herramienta que convirtió el modelo a formato JS
+
+#### **2. Firma del Modelo (Model Signature)**
+
+Define la forma de las entradas y salidas:
+
+```json
+{
+  "signature": {
+    "inputs": {
+      "keras_tensor_1762": {
+        "name": "keras_tensor_1762:0",
+        "dtype": "DT_FLOAT",
+        "tensorShape": {
+          "dim": [
+            { "size": "-1" },
+            { "size": "192" },
+            { "size": "192" },
+            { "size": "3" }
+          ]
+        }
+      }
+    },
+    "outputs": {
+      "output_0": {
+        "name": "Identity:0",
+        "dtype": "DT_FLOAT",
+        "tensorShape": {
+          "dim": [
+            { "size": "-1" },
+            { "size": "1" }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+**Interpretación:**
+- **Entrada**: Batch de imágenes 192×192 RGB (el `-1` indica tamaño de batch variable)
+- **Salida**: Batch de predicciones con 1 valor por imagen
+
+#### **3. Topología del Modelo (Model Topology)**
+
+Describe el grafo computacional completo de la red neuronal con todos los nodos (operaciones) y sus conexiones. Esta sección es extensa e incluye:
+
+- **Operaciones de convolución** (`_FusedConv2D`)
+- **Operaciones de normalización** (Batch Normalization)
+- **Operaciones de pooling** (`MaxPool`)
+- **Operaciones de activación** (`Relu`, `Sigmoid`)
+- **Operaciones de transformación** (`Reshape`, `Flatten`)
+- **Operaciones de multiplicación matricial** (`_FusedMatMul`)
+
+#### **4. Manifiesto de Pesos (Weights Manifest)**
+
+Referencia a los archivos binarios que contienen los pesos entrenados:
+
+```json
+{
+  "weightsManifest": [
+    {
+      "paths": [
+        "group1-shard1of10.bin",
+        "group1-shard2of10.bin",
+        "group1-shard3of10.bin",
+        "group1-shard4of10.bin",
+        "group1-shard5of10.bin",
+        "group1-shard6of10.bin",
+        "group1-shard7of10.bin",
+        "group1-shard8of10.bin",
+        "group1-shard9of10.bin",
+        "group1-shard10of10.bin"
+      ],
+      "weights": [
+        {
+          "name": "StatefulPartitionedCall/functional_212_1/conv2d_1/convolution/ReadVariableOp",
+          "shape": [3, 3, 3, 32],
+          "dtype": "float32"
+        }
+        // ... más tensores de pesos
+      ]
+    }
+  ]
+}
+```
+
+**Estructura:**
+- Los pesos se dividen en 10 archivos `.bin` para facilitar la carga progresiva
+- Cada entrada en `weights` describe un tensor específico (filtros, sesgos, parámetros de normalización)
+- Total de parámetros entrenables: ~9.5 millones
+
+### Carga del Modelo en la Aplicación
+
+El modelo se carga mediante el hook `useModel` en `src/hooks/useModel.ts`:
+
+```typescript
+import * as tf from '@tensorflow/tfjs';
+
+const MODEL_URL = '/models/model.json';
+
+// Cargar modelo
+const loadedModel = await tf.loadGraphModel(MODEL_URL);
+
+// Realizar predicción
+const imageTensor = tf.browser.fromPixels(imageElement, 3);
+const resized = tf.image.resizeBilinear(imageTensor, [192, 192]);
+const normalized = resized.div(255.0);
+const batched = normalized.expandDims(0);
+const prediction = loadedModel.predict(batched) as tf.Tensor;
+```
+
+### Proceso de Inferencia
+
+1. **Preprocesamiento:**
+   - Redimensionar imagen a 192×192 píxeles
+   - Normalizar valores de píxeles (0-255 → 0.0-1.0)
+   - Agregar dimensión de batch
+
+2. **Predicción:**
+   - Pasar tensor procesado a través de la red
+   - Obtener valor de salida (0.0 - 1.0)
+
+3. **Postprocesamiento:**
+   - Aplicar umbral de decisión (0.3)
+   - Calcular confianza porcentual
+   - Devolver clasificación y confianza
+
+### Requerimientos Técnicos
+
+- **TensorFlow.js**: v4.22.0 o superior
+- **Backend**: WebGL (GPU) o CPU fallback
+- **Memoria**: ~150MB durante inferencia activa
+- **Navegador**: Soporte para WebAssembly y WebGL
+
+### Generación del model.json
+
+Si necesitás regenerar o actualizar el modelo:
+
+```python
+# En Python con TensorFlow
+import tensorflowjs as tfjs
+
+# Entrenar/cargar tu modelo Keras
+model = keras.models.load_model('path/to/model.h5')
+
+# Convertir a formato TensorFlow.js
+tfjs.converters.save_keras_model(model, 'public/models/')
+```
+
+Este comando generará automáticamente:
+- `model.json` (arquitectura y referencias)
+- `group1-shard*.bin` (archivos de pesos)
+
+### Troubleshooting
+
+**Problema:** El modelo no carga
+- **Solución:** Verificá que `model.json` y todos los archivos `.bin` estén en `public/models/`
+
+**Problema:** Errores de CORS
+- **Solución:** Asegurate de servir los archivos desde el mismo origen o configurá headers CORS apropiados
+
+**Problema:** Predicciones lentas
+- **Solución:** Verificá que TensorFlow.js esté usando el backend WebGL (GPU). Ejecutá `tf.getBackend()` en la consola.
+
+**Problema:** Uso excesivo de memoria
+- **Solución:** Asegurate de llamar `.dispose()` en todos los tensores después de usarlos
+
 ## 🔧 Desarrollo
 
 ### Scripts Disponibles
@@ -375,6 +621,13 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 ---
 
 ## Registro de Versiones
+
+### v1.5.0 - 2025-10-07
+- **Cambios:** Agregada documentación técnica exhaustiva sobre la arquitectura del archivo model.json
+- **Características:** Nueva sección "Arquitectura del Modelo: model.json" con explicación completa de la estructura CNN, formato del archivo, proceso de inferencia y troubleshooting
+- **Uso:** Desarrolladores y estudiantes pueden comprender en profundidad cómo funciona el modelo TensorFlow.js, su arquitectura de 8 capas, y cómo se integra en la aplicación
+- **Documentación:** Incluye detalles técnicos sobre la topología del modelo, manifiesto de pesos, firmas de entrada/salida, y proceso completo de carga e inferencia
+- **Cambios Importantes:** Ninguno
 
 ### v1.4.0 - 2025-10-07
 - **Cambios:** Agregada documentación técnica completa sobre configuración de predicciones del modelo
