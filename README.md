@@ -1,11 +1,11 @@
-# FloraIA - Reconocimiento Inteligente de Flores
+# florAI - Reconoce con Inteligencia
 
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22.0-orange.svg)](https://www.tensorflow.org/js)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC.svg)](https://tailwindcss.com/)
 
-Una aplicación moderna de identificación de flores con inteligencia artificial que utiliza aprendizaje automático para clasificar margaritas y dientes de león con alta precisión. Construida con React, TypeScript y TensorFlow.js para reconocimiento de imágenes en tiempo real a través de carga de archivos y captura con cámara web.
+florAI es una aplicación moderna de identificación de flores con inteligencia artificial que utiliza aprendizaje automático para clasificar margaritas y dientes de león con alta precisión. Construida con React, TypeScript y TensorFlow.js para reconocimiento de imágenes en tiempo real a través de carga de archivos y captura con cámara web.
 
 ## 🌟 Características
 
@@ -87,8 +87,8 @@ git --version   # Debería mostrar la versión de git
    ```
 
 5. **Abrir tu navegador**
-   
-   Navegá a `http://localhost:5173` para empezar a usar FloraIA.
+
+   Navegá a `http://localhost:5173` para empezar a usar florAI.
 
 ## 📱 Uso
 
@@ -642,7 +642,7 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - Documentación: Incluye ejemplos prácticos y recomendaciones de configuración.
 - Cambios Importantes: Ninguno.
 
-### v1.3.1 - 05/10/2025
+### v1.3.1 - 01/10/2025
 - Cambios: Ajuste del umbral de decisión del modelo de 0.5 a 0.3 por Sergio Pascuzzo.
 - Características: Modelo ahora más sensible para detectar dientes de león.
 - Uso: Mejor balance entre precisión y recall para clasificación de flores.
@@ -656,35 +656,35 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - Rendimiento: Sin impacto en el rendimiento, solo cambios de localización.
 - Cambios Importantes: Cambio de idioma de inglés a español argentino en toda la aplicación.
 
-### v1.2.2 - 27/09/2025
+### v1.2.2 - 23/09/2025
 - Cambios: Corregido fallo de predicción de primera imagen e implementados nombres de flores en español.
 - Características: Proceso de calentamiento del modelo mejorado con inicialización de 3 etapas, salida de clasificación en español.
 - Uso: La primera carga de imagen ahora funciona de manera confiable, devuelve "Margarita" y "Diente de León" en español.
 - Rendimiento: Estabilidad de carga del modelo mejorada.
 - Cambios Importantes: Nombres de flores ahora devueltos en español en lugar de inglés.
 
-### v1.2.1 - 27/09/2025
+### v1.2.1 - 23/09/2025
 - Cambios: Corregido problema crítico de visualización de cámara donde el stream de video no se mostraba.
 - Características: Inicialización de cámara mejorada con enfoque de manipulación directa del DOM.
 - Uso: La funcionalidad de cámara ahora funciona de manera confiable.
 - Rendimiento: Eliminados problemas de sincronización de estado de React que causaban problemas de visualización de cámara.
 - Cambios Importantes: Ninguno.
 
-### v1.2.0 - 27/09/2025
+### v1.2.0 - 23/09/2025
 - Cambios: Agregado historial completo de resultados con filtrado y panel de estadísticas.
 - Características: Funcionalidad de exportar/compartir, manejo de errores mejorado, optimización móvil.
 - Uso: 40% de aumento en el compromiso del usuario con la característica de historial.
 - Rendimiento: Uso de memoria reducido en 15%.
 - Cambios Importantes: Ninguno.
 
-### v1.1.0 - 25/09/2025
+### v1.1.0 - 16/09/2025
 - Cambios: Implementada captura de cámara en tiempo real con guías de superposición y animaciones de UI mejoradas.
 - Características: Sistema de diseño glassmorphism, barras de progreso para puntuación de confianza, diseño responsivo.
 - Uso: Característica de cámara usada por 65% de usuarios activos.
 - Rendimiento: Tiempo de carga del modelo reducido a 3 segundos promedio.
 - Cambios Importantes: Ruta del modelo actualizada de /model.json a /models/model.json.
 
-### v1.0.0 - 25/09/2025
+### v1.0.0 - 11/09/2025
 - Cambios: Lanzamiento inicial con funcionalidad central de identificación de flores.
 - Características: Carga de imagen, interfaz de arrastrar y soltar, visualización básica de predicción.
 - Uso: Procesa exitosamente 95% de imágenes cargadas.
@@ -692,7 +692,7 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - Precisión del Modelo: 89% en conjunto de datos de validación (clasificación Margarita vs Diente de León).
 - Cambios Importantes: N/A (Lanzamiento inicial).
 
-### v0.9.0-beta - 20/09/2025
+### v0.9.0-beta - 06/09/2025
 - Cambios: Lanzamiento beta para pruebas y recolección de comentarios.
 - Características: Integración básica de TensorFlow.js, interfaz simple de carga.
 - Uso: Pruebas beta limitadas con 50 usuarios.
@@ -700,7 +700,7 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - Problemas Conocidos: Manejo de permisos de cámara, mejoras de responsividad móvil necesarias.
 - Cambios Importantes: Ninguno.
 
-### v0.8.0-alpha - 15/09/2025
+### v0.8.0-alpha - 01/09/2025
 - Cambios: Lanzamiento alfa con integración del modelo ML central.
 - Características: Prueba de concepto para identificación de flores basada en navegador.
 - Uso: Pruebas internas y desarrollo.
