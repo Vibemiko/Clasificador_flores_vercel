@@ -628,6 +628,21 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 
 ## Registro de Versiones
 
+### v2.0.0-beta (beta_v2) - 08/11/2025
+- Cambios: Rediseño completo de la interfaz de usuario con nueva identidad visual y experiencia de usuario mejorada.
+- Características:
+  - Pantalla de inicio interactiva con `starting_screen_transparente.png`
+  - Menú desplegable en esquina superior derecha con acceso a "Acerca del proyecto", repositorio GitHub y documentación
+  - Modal informativo "Acerca del proyecto" con información del equipo y materia
+  - Nuevo esquema de colores: Verde amarillento (#bdef34), Azul oscuro (#1b1a32), Morado claro (#c4b6ee), Turquesa (#0bd17f)
+  - Integración del logo oficial `APP_logo_transparente.png` en header
+  - Imágenes personalizadas para estados vacíos (subir imagen y cámara)
+  - Tipografías personalizadas: Now y Stinger con fallbacks apropiados
+- Uso: Experiencia de usuario completamente renovada con identidad de marca "florAI - Reconoce con Inteligencia"
+- Rendimiento: Optimización para dispositivos móviles Android con viewport y touch events mejorados
+- Documentación: README actualizado con nuevo nombre "florAI" y fechas corregidas del registro de versiones (todas las fechas de enero 2025 corregidas a septiembre 2025)
+- Cambios Importantes: Rebranding completo de "FloraIA" a "florAI", nueva rama beta_v2 creada para pruebas de la nueva UI
+
 ### v1.5.0 - 07/10/2025
 - Cambios: Agregada documentación técnica exhaustiva sobre la arquitectura del archivo model.json.
 - Características: Nueva sección "Arquitectura del Modelo: model.json" con explicación completa de la estructura CNN, formato del archivo, proceso de inferencia y troubleshooting.
