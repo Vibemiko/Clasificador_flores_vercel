@@ -732,9 +732,13 @@ Este proyecto está licenciado bajo la Licencia MIT - mirá el archivo [LICENSE]
 - Fecha: 23/09/2025
 - Evento: Lautaro completa el entrenamiento del modelo Keras (.keras) con un buen porcentaje de precisión (68%).
 
+### Hito: Primeras Pruebas de Modelos (06/09/2025)
+- Fecha: 06/09/2025
+- Evento: Javier Pascuzzo realiza primeras pruebas con tres modelos diferentes: uno de capas densas y dos de capas convolucionales. El mejor de los tres alcanza 55% de precisión. Se menciona la necesidad de probar con hiperparámetros para el próximo test.
+
 ### Hito: Definición del Tema (02/09/2025)
 - Fecha: 02/09/2025
-- Evento: El grupo define el proyecto: Clasificación de imágenes de flores (margarita o diente de león).
+- Evento: El grupo define el proyecto: Clasificación de imágenes de flores (margarita o diente de león). Sergio Pascuzzo, como líder del proyecto, comienza el armado del modelo predictivo en TensorFlow con el algoritmo CNN.
 
 ### Hito: Creación del Grupo (12/08/2025)
 - Fecha: 12/08/2025
