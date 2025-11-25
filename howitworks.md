@@ -90,9 +90,9 @@ Imagen → Capa 1 (detecta bordes) → Capa 2 (detecta formas) → ... → Resul
 
 ### Paso 3: Decisión Final
 - El modelo produce un número entre 0 y 1
-- Si es menor a 0.3 → "Es una Margarita"
-- Si es mayor a 0.3 → "Es un Diente de León"
-- La distancia de 0.3 indica qué tan seguro está el modelo
+- Si es menor a 0.5 → "Es una Margarita"
+- Si es mayor a 0.5 → "Es un Diente de León"
+- La distancia de 0.5 indica qué tan seguro está el modelo
 
 ## 🏗️ Arquitectura Técnica Simplificada
 
